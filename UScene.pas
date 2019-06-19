@@ -6,12 +6,13 @@ uses
 
 type
   TPoint = array[0..2] of real;
+  TTriPoints = array[0..2] of TPoint;
 
   TTriangle = class
     private
-      tri_points: array[0..2] of TPoint;
+      tri_points: TTriPoints;
     public
-      property points: TPoint read tri_points write tri_points;
+      property points: TTriPoints read tri_points write tri_points;
   end;
 
   TSceneObj = class(TList<TTriangle>)

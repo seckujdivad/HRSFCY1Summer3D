@@ -26,7 +26,7 @@ end;
 
 procedure TRender.SetScene(newScene: TScene);
 begin
-  self.scene = newScene;
+  self.scene := newScene;
 end;
 
 end.
