@@ -11,6 +11,7 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object RdoChoices: TRadioGroup
@@ -22,6 +23,7 @@ object MainForm: TMainForm
       'Render output'
       'Scene database')
     TabOrder = 0
+    OnClick = RdoChoicesClick
   end
   object PnlParent: TPanel
     Left = 199
