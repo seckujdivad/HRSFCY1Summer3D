@@ -100,7 +100,17 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="FormRenderer.pas">
-            <Form>Form1</Form>
+            <Form>RenderForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="URender.pas"/>
+        <DCCReference Include="UScene.pas"/>
+        <DCCReference Include="FormDatabase.pas">
+            <Form>DatabaseForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="FormMain.pas">
+            <Form>MainForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">
@@ -551,6 +561,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
