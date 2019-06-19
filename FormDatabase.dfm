@@ -1,7 +1,7 @@
-object RenderForm: TRenderForm
+object DatabaseForm: TDatabaseForm
   Left = 0
   Top = 0
-  Caption = 'RenderForm'
+  Caption = 'DatabaseForm'
   ClientHeight = 300
   ClientWidth = 400
   Color = clBtnFace
@@ -11,16 +11,10 @@ object RenderForm: TRenderForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object RenderOutput: TPaintBox
-    Left = 0
-    Top = 0
-    Width = 400
-    Height = 300
-    Align = alClient
-    ExplicitLeft = 32
-    ExplicitTop = 24
+  object SQLConnection1: TSQLConnection
+    Left = 152
+    Top = 64
   end
 end
