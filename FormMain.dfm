@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'MainForm'
-  ClientHeight = 317
-  ClientWidth = 610
+  ClientHeight = 680
+  ClientWidth = 901
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,23 +14,39 @@ object MainForm: TMainForm
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object RdoChoices: TRadioGroup
-    Left = 8
-    Top = 112
-    Width = 185
-    Height = 105
-    Items.Strings = (
-      'Render output'
-      'Scene database')
-    TabOrder = 0
-    OnClick = RdoChoicesClick
-  end
   object PnlParent: TPanel
-    Left = 199
-    Top = 8
-    Width = 400
-    Height = 300
+    AlignWithMargins = True
+    Left = 183
+    Top = 32
+    Width = 715
+    Height = 645
+    Align = alRight
+    AutoSize = True
     Caption = 'PnlParent'
-    TabOrder = 1
+    TabOrder = 0
+    ExplicitTop = 3
+    ExplicitHeight = 674
+  end
+  object ActionToolBar1: TActionToolBar
+    Left = 0
+    Top = 0
+    Width = 901
+    Height = 29
+    Caption = 'ActionToolBar1'
+    Color = clMenuBar
+    ColorMap.DisabledFontColor = 7171437
+    ColorMap.HighlightColor = clWhite
+    ColorMap.BtnSelectedFont = clBlack
+    ColorMap.UnusedColor = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Spacing = 0
+    ExplicitLeft = 80
+    ExplicitTop = 120
+    ExplicitWidth = 150
   end
 end
