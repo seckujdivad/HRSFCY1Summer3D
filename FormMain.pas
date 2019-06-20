@@ -47,7 +47,7 @@ begin
   formRender := TRenderForm.Create(self);
   formRender.Parent := PnlParent;
 
-  FileOpen1.Dialog.InitialDir := GetCurrentDir;
+  FileOpen1.Dialog.InitialDir := GetCurrentDir + '\scenes\';
 end;
 
 end.
