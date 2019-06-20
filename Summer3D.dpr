@@ -13,8 +13,8 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TRenderForm, RenderForm);
   Application.CreateForm(TDatabaseForm, DatabaseForm);
-  Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.

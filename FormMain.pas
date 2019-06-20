@@ -30,10 +30,8 @@ implementation
 
 procedure TMainForm.ChoosePanel(index: integer);
 begin
-  forms[currentFormIndex].OnHide(self);
   currentFormIndex := index;
-  forms[currentFormIndex].Parent := self;
-  forms[currentFormIndex].OnShow(self);
+  forms[currentFormIndex].Parent := PnlParent;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -41,6 +39,8 @@ begin
   currentFormIndex := 0;
   forms[0] := TRenderForm.Create(self);
   forms[1] := TDatabaseForm.Create(self);
+
+  ChoosePanel(currentFormIndex);
 end;
 
 procedure TMainForm.RdoChoicesClick(Sender: TObject);
