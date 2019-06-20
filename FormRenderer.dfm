@@ -2,8 +2,8 @@ object RenderForm: TRenderForm
   Left = 0
   Top = 0
   Caption = 'RenderForm'
-  ClientHeight = 300
-  ClientWidth = 400
+  ClientHeight = 561
+  ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,11 +16,17 @@ object RenderForm: TRenderForm
   TextHeight = 13
   object RenderOutput: TPaintBox
     Left = 0
-    Top = 0
-    Width = 400
-    Height = 300
-    Align = alClient
-    ExplicitLeft = 32
-    ExplicitTop = 24
+    Top = 48
+    Width = 800
+    Height = 513
+    Cursor = crCross
+  end
+  object Button1: TButton
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 0
   end
 end

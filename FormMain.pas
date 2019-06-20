@@ -5,18 +5,22 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, FormRenderer, FormDatabase,
-  Vcl.ToolWin, Vcl.ActnMan, Vcl.ActnCtrls;
+  Vcl.ToolWin, Vcl.ActnMan, Vcl.ActnCtrls, System.Actions, Vcl.ActnList,
+  Vcl.StdActns, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMenus,
+  Generics.Collections;
 
 type
   TMainForm = class(TForm)
     PnlParent: TPanel;
-    ActionToolBar1: TActionToolBar;
-    procedure RdoChoicesClick(Sender: TObject);
+    ActmgrMain: TActionManager;
+    FileOpen1: TFileOpen;
+    ActmenubrMain: TActionMainMenuBar;
     procedure FormCreate(Sender: TObject);
+    procedure FileOpen1BeforeExecute(Sender: TObject);
+    procedure FileOpen1Accept(Sender: TObject);
   private
-    forms: array[0..1] of TForm;
+    formRender: TRenderForm;
 
-    procedure OpenToolForm(index: integer);
   public
     { Public declarations }
   end;
@@ -28,18 +32,22 @@ implementation
 
 {$R *.dfm}
 
-procedure TMainForm.OpenToolForm(index: integer);
+procedure TMainForm.FileOpen1Accept(Sender: TObject);
 begin
-  forms[index].Parent := PnlParent;
-  forms[index].Show;
+  ShowMessage(FileOpen1.Dialog.FileName);
+end;
+
+procedure TMainForm.FileOpen1BeforeExecute(Sender: TObject);
+begin
+  formRender.Show;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
-var
-  form: TForm;
 begin
-  forms[0] := TRenderForm.Create(self);
-  forms[1] := TDatabaseForm.Create(self);
+  formRender := TRenderForm.Create(self);
+  formRender.Parent := PnlParent;
+
+  FileOpen1.Dialog.InitialDir := GetCurrentDir;
 end;
 
 end.

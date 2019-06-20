@@ -9,6 +9,7 @@ uses
 type
   TRenderForm = class(TForm)
     RenderOutput: TPaintBox;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
   private
     renderer: TRender;
