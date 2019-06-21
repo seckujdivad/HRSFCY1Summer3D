@@ -12,13 +12,16 @@ object MainForm: TMainForm
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  DesignSize = (
+    901
+    680)
   PixelsPerInch = 96
   TextHeight = 13
   object PnlParent: TPanel
     AlignWithMargins = True
-    Left = 183
+    Left = 98
     Top = 28
-    Width = 715
+    Width = 800
     Height = 649
     Align = alRight
     AutoSize = True
@@ -44,6 +47,21 @@ object MainForm: TMainForm
     Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
+  end
+  object BtngrpTools: TButtonGroup
+    AlignWithMargins = True
+    Left = 0
+    Top = 31
+    Width = 92
+    Height = 322
+    Anchors = [akLeft, akTop, akRight]
+    ButtonWidth = 90
+    Items = <
+      item
+        Caption = 'Scene renderer'
+        OnClick = ButtonGroup1Items0Click
+      end>
+    TabOrder = 2
   end
   object ActmgrMain: TActionManager
     ActionBars = <
@@ -71,7 +89,6 @@ object MainForm: TMainForm
       Hint = 'Open|Opens an existing file'
       ImageIndex = 7
       ShortCut = 16463
-      BeforeExecute = FileOpen1BeforeExecute
       OnAccept = FileOpen1Accept
     end
   end

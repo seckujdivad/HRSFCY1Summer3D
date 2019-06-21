@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, FormRenderer, FormDatabase,
   Vcl.ToolWin, Vcl.ActnMan, Vcl.ActnCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMenus,
-  Generics.Collections;
+  Generics.Collections, Vcl.ButtonGroup;
 
 type
   TMainForm = class(TForm)
@@ -15,9 +15,10 @@ type
     ActmgrMain: TActionManager;
     FileOpen1: TFileOpen;
     ActmenubrMain: TActionMainMenuBar;
+    BtngrpTools: TButtonGroup;
     procedure FormCreate(Sender: TObject);
-    procedure FileOpen1BeforeExecute(Sender: TObject);
     procedure FileOpen1Accept(Sender: TObject);
+    procedure ButtonGroup1Items0Click(Sender: TObject);
 
   private
     forms: TList<TForm>;
@@ -36,14 +37,14 @@ implementation
 
 {$R *.dfm}
 
+procedure TMainForm.ButtonGroup1Items0Click(Sender: TObject);
+begin
+  MakeToolWindow('render');
+end;
+
 procedure TMainForm.FileOpen1Accept(Sender: TObject);
 begin
   ShowMessage(FileOpen1.Dialog.FileName);
-end;
-
-procedure TMainForm.FileOpen1BeforeExecute(Sender: TObject);
-begin
-  MakeToolWindow('render');
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
