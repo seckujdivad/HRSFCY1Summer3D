@@ -30,6 +30,7 @@ object MainForm: TMainForm
     Top = 0
     Width = 901
     Height = 25
+    UseSystemFont = False
     ActionManager = ActmgrMain
     Caption = 'ActmenubrMain'
     Color = clMenuBar
@@ -38,15 +39,11 @@ object MainForm: TMainForm
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clBlack
     Font.Height = -12
     Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
-    ExplicitLeft = 88
-    ExplicitTop = 504
-    ExplicitWidth = 150
-    ExplicitHeight = 29
   end
   object ActmgrMain: TActionManager
     ActionBars = <

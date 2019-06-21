@@ -18,11 +18,15 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FileOpen1BeforeExecute(Sender: TObject);
     procedure FileOpen1Accept(Sender: TObject);
+
   private
-    formRender: TRenderForm;
+    forms: TList<TForm>;
 
   public
-    { Public declarations }
+    function GetToolWindow(index: integer): TForm;
+    function MakeToolWindow(name: string): integer;
+    procedure RemoveApp(index: integer);
+
   end;
 
 var
@@ -39,15 +43,34 @@ end;
 
 procedure TMainForm.FileOpen1BeforeExecute(Sender: TObject);
 begin
-  formRender.Show;
+  MakeToolWindow('render');
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  formRender := TRenderForm.Create(self);
-  formRender.Parent := PnlParent;
+  forms := TList<TForm>.Create;
 
   FileOpen1.Dialog.InitialDir := GetCurrentDir + '\scenes\';
+end;
+
+function TMainForm.GetToolWindow(index: integer): TForm;
+begin
+  result := forms[index];
+end;
+
+function TMainForm.MakeToolWindow(name: string): integer;
+begin
+  if name = 'render' then
+    forms.Add(TRenderForm.Create(self));
+
+  forms.Last.Parent := PnlParent;
+  forms.Last.Show;
+end;
+
+procedure TMainForm.RemoveApp(index: integer);
+begin
+  forms[index].Hide;
+  forms[index].Destroy;
 end;
 
 end.
