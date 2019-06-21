@@ -9,7 +9,8 @@ uses
 type
   TRenderForm = class(TForm)
     RenderOutput: TPaintBox;
-    Button1: TButton;
+    BtnRender: TButton;
+    LblStatus: TLabel;
     procedure FormCreate(Sender: TObject);
   private
     renderer: TRender;

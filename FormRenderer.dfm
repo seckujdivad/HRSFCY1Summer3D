@@ -21,12 +21,19 @@ object RenderForm: TRenderForm
     Height = 513
     Cursor = crCross
   end
-  object Button1: TButton
+  object LblStatus: TLabel
+    Left = 89
+    Top = 8
+    Width = 31
+    Height = 13
+    Caption = 'Status'
+  end
+  object BtnRender: TButton
     Left = 8
     Top = 8
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Render'
     TabOrder = 0
   end
 end
