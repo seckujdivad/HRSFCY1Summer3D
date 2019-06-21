@@ -11,6 +11,7 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poDesigned
   OnCreate = FormCreate
   DesignSize = (
     901

@@ -38,7 +38,9 @@ type
   TScene = class(TList<TSceneObj>)
     private
       scene_cam: TCamera;
+      path: string;
     public
+      constructor Create(scenePath: string);
   end;
 
 
@@ -49,6 +51,13 @@ implementation
 procedure TCamera.SetAspectRatio(x, y: integer);
 begin
   aspect := y / x;
+end;
+
+{ TScene }
+
+constructor TScene.Create(scenePath: string);
+begin
+  path := scenePath;
 end;
 
 end.

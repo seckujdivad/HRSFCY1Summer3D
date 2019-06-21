@@ -22,6 +22,7 @@ type
 
   private
     forms: TList<TForm>;
+    activeForms: TList<integer>;
 
   public
     function GetToolWindow(index: integer): TForm;
@@ -43,13 +44,21 @@ begin
 end;
 
 procedure TMainForm.FileOpen1Accept(Sender: TObject);
+var
+  form: TForm;
+  renderForm: TRenderForm;
 begin
-  ShowMessage(FileOpen1.Dialog.FileName);
+  for form in forms do
+    if form.Name = 'RenderForm' then begin
+      renderForm := form;
+      renderForm.SetScene(FileOpen1.Dialog.FileName);
+    end;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   forms := TList<TForm>.Create;
+  activeForms := TList<integer>.Create;
 
   FileOpen1.Dialog.InitialDir := GetCurrentDir + '\scenes\';
 end;
@@ -66,12 +75,15 @@ begin
 
   forms.Last.Parent := PnlParent;
   forms.Last.Show;
+
+  activeForms.Add(Length(forms) - 1);
 end;
 
 procedure TMainForm.RemoveApp(index: integer);
 begin
   forms[index].Hide;
   forms[index].Destroy;
+  activeForms.Remove(index);
 end;
 
 end.
