@@ -76,7 +76,7 @@ begin
   forms.Last.Parent := PnlParent;
   forms.Last.Show;
 
-  activeForms.Add(Length(forms) - 1);
+  activeForms.Add(forms.Count - 1);
 end;
 
 procedure TMainForm.RemoveApp(index: integer);
