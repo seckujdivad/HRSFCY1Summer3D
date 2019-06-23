@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, FormRenderer, FormDatabase,
   Vcl.ToolWin, Vcl.ActnMan, Vcl.ActnCtrls, System.Actions, Vcl.ActnList,
   Vcl.StdActns, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMenus,
-  Generics.Collections, Vcl.ButtonGroup;
+  Generics.Collections, Vcl.ButtonGroup, UFormContainers;
 
 type
   TMainForm = class(TForm)
@@ -19,16 +19,12 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FileOpen1Accept(Sender: TObject);
     procedure ButtonGroup1Items0Click(Sender: TObject);
-
   private
-    forms: TList<TForm>;
-    activeForms: TList<integer>;
-
+    renderForms: TFormContainer<TRenderForm>;
   public
     function GetToolWindow(index: integer): TForm;
     function MakeToolWindow(name: string): integer;
     procedure RemoveApp(index: integer);
-
   end;
 
 var
@@ -50,8 +46,8 @@ var
 begin
   for form in forms do
     if form.Name = 'RenderForm' then begin
-      renderForm := form;
-      renderForm.SetScene(FileOpen1.Dialog.FileName);
+      ShowMessage();
+      //form.SetScene(FileOpen1.Dialog.FileName);
     end;
 end;
 
