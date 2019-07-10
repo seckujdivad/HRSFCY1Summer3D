@@ -85,7 +85,7 @@ end;
 
 procedure TScene.LoadScene;
 begin
-  self.QueryDB('SELECT * FROM cams');
+  self.QueryDB('SELECT name FROM cams;');
 
   while not dbQuery.Eof do begin
     ShowMessage(dbQuery.FieldByName('name').AsString);
