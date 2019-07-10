@@ -5,13 +5,15 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, URender, Vcl.StdCtrls,
-  UScene;
+  UScene, Data.FMTBcd, Data.DB, Data.SqlExpr;
 
 type
   TRenderForm = class(TForm)
     RenderOutput: TPaintBox;
     BtnRender: TButton;
     LblStatus: TLabel;
+    SQLConnScene: TSQLConnection;
+    SQLQueryScene: TSQLQuery;
     procedure FormCreate(Sender: TObject);
     procedure BtnRenderClick(Sender: TObject);
   private
@@ -40,7 +42,7 @@ end;
 
 procedure TRenderForm.SetScene(path: string);
 begin
-  self.scene := TScene.Create(path);
+  self.scene := TScene.Create(path, SQLConnScene, SQLQueryScene);
   self.renderer.SetScene(self.scene);
 
   LblStatus.Caption := path;

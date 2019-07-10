@@ -37,4 +37,15 @@ object RenderForm: TRenderForm
     TabOrder = 0
     OnClick = BtnRenderClick
   end
+  object SQLConnScene: TSQLConnection
+    Left = 504
+    Top = 8
+  end
+  object SQLQueryScene: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnScene
+    Left = 568
+    Top = 8
+  end
 end
