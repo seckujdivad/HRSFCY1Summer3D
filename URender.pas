@@ -13,6 +13,7 @@ type
       constructor Create(renderTo: TCanvas);
 
       procedure SetScene(newScene: TScene);
+      procedure Render;
   end;
 
 implementation
@@ -22,6 +23,11 @@ implementation
 constructor TRender.Create(renderTo: TCanvas);
 begin
   self.canvas := renderTo;
+end;
+
+procedure TRender.Render;
+begin
+
 end;
 
 procedure TRender.SetScene(newScene: TScene);

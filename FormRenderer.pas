@@ -13,6 +13,7 @@ type
     BtnRender: TButton;
     LblStatus: TLabel;
     procedure FormCreate(Sender: TObject);
+    procedure BtnRenderClick(Sender: TObject);
   private
     renderer: TRender;
     scene: TScene;
@@ -26,6 +27,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TRenderForm.BtnRenderClick(Sender: TObject);
+begin
+  self.renderer.Render;
+end;
 
 procedure TRenderForm.FormCreate(Sender: TObject);
 begin

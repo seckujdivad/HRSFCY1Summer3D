@@ -35,5 +35,6 @@ object RenderForm: TRenderForm
     Height = 25
     Caption = 'Render'
     TabOrder = 0
+    OnClick = BtnRenderClick
   end
 end
