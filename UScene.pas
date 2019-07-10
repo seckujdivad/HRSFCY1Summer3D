@@ -39,6 +39,8 @@ type
     private
       scene_cam: TCamera;
       path: string;
+
+      procedure LoadScene;
     public
       constructor Create(scenePath: string);
   end;
@@ -58,6 +60,13 @@ end;
 constructor TScene.Create(scenePath: string);
 begin
   path := scenePath;
+
+  self.LoadScene;
+end;
+
+procedure TScene.LoadScene;
+begin
+
 end;
 
 end.
