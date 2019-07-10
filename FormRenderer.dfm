@@ -35,5 +35,28 @@ object RenderForm: TRenderForm
     Height = 25
     Caption = 'Render'
     TabOrder = 0
+    OnClick = BtnRenderClick
+  end
+  object SQLConnScene: TSQLConnection
+    DriverName = 'Sqlite'
+    Params.Strings = (
+      'DriverUnit=Data.DbxSqlite'
+      
+        'DriverPackageLoader=TDBXSqliteDriverLoader,DBXSqliteDriver260.bp' +
+        'l'
+      
+        'MetaDataPackageLoader=TDBXSqliteMetaDataCommandFactory,DbxSqlite' +
+        'Driver260.bpl'
+      'FailIfMissing=True'
+      'Database=')
+    Left = 504
+    Top = 8
+  end
+  object SQLQueryScene: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnScene
+    Left = 568
+    Top = 8
   end
 end

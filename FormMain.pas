@@ -21,13 +21,12 @@ type
     procedure ButtonGroup1Items0Click(Sender: TObject);
 
   private
-    forms: TList<TForm>;
-    activeForms: TList<integer>;
+    renderForms: TList<TRenderForm>;
 
   public
-    function GetToolWindow(index: integer): TForm;
-    function MakeToolWindow(name: string): integer;
-    procedure RemoveApp(index: integer);
+    function GetToolWindow(index: integer; ftype: string): TForm;
+    function MakeToolWindow(ftype: string): integer;
+    procedure RemoveApp(index: integer; ftype: string);
 
   end;
 
@@ -45,45 +44,42 @@ end;
 
 procedure TMainForm.FileOpen1Accept(Sender: TObject);
 var
-  form: TForm;
   renderForm: TRenderForm;
 begin
-  for form in forms do
-    if form.Name = 'RenderForm' then begin
-      renderForm := form;
-      renderForm.SetScene(FileOpen1.Dialog.FileName);
-    end;
+  for renderForm in renderForms do begin
+    renderForm.SetScene(FileOpen1.Dialog.FileName);
+  end;
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  forms := TList<TForm>.Create;
-  activeForms := TList<integer>.Create;
+  renderForms := TList<TRenderForm>.Create;
 
   FileOpen1.Dialog.InitialDir := GetCurrentDir + '\scenes\';
 end;
 
-function TMainForm.GetToolWindow(index: integer): TForm;
+function TMainForm.GetToolWindow(index: integer; ftype: string): TForm;
 begin
-  result := forms[index];
+  if ftype = 'render' then
+    result := renderForms[index];
 end;
 
-function TMainForm.MakeToolWindow(name: string): integer;
+function TMainForm.MakeToolWindow(ftype: string): integer;
 begin
-  if name = 'render' then
-    forms.Add(TRenderForm.Create(self));
+  if ftype = 'render' then begin
+    renderForms.Add(TRenderForm.Create(self));
 
-  forms.Last.Parent := PnlParent;
-  forms.Last.Show;
-
-  activeForms.Add(forms.Count - 1);
+    renderForms.Last.Parent := PnlParent;
+    renderForms.Last.Show;
+  end;
 end;
 
-procedure TMainForm.RemoveApp(index: integer);
+procedure TMainForm.RemoveApp(index: integer; ftype: string);
 begin
-  forms[index].Hide;
-  forms[index].Destroy;
-  activeForms.Remove(index);
+  if ftype = 'render' then begin
+    renderForms[index].Hide;
+    renderForms[index].Free;
+  end;
 end;
 
 end.
