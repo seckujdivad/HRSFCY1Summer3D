@@ -35,6 +35,7 @@ end;
 procedure TRenderForm.SetScene(path: string);
 begin
   self.scene := TScene.Create(path);
+  self.renderer.SetScene(self.scene);
 
   LblStatus.Caption := path;
 end;
