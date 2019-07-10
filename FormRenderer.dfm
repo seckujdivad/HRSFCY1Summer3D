@@ -38,6 +38,17 @@ object RenderForm: TRenderForm
     OnClick = BtnRenderClick
   end
   object SQLConnScene: TSQLConnection
+    DriverName = 'Sqlite'
+    Params.Strings = (
+      'DriverUnit=Data.DbxSqlite'
+      
+        'DriverPackageLoader=TDBXSqliteDriverLoader,DBXSqliteDriver260.bp' +
+        'l'
+      
+        'MetaDataPackageLoader=TDBXSqliteMetaDataCommandFactory,DbxSqlite' +
+        'Driver260.bpl'
+      'FailIfMissing=True'
+      'Database=')
     Left = 504
     Top = 8
   end

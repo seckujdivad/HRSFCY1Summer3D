@@ -2,7 +2,7 @@ unit UScene;
 
 interface
 uses
-  Generics.Collections, Data.FMTBcd, Data.DB, Data.SqlExpr, Vcl.Dialogs;
+  Generics.Collections, Data.FMTBcd, Data.DB, Data.SqlExpr, Vcl.Dialogs, SysUtils;
 
 type
   TPoint = array[0..2] of real;
@@ -85,25 +85,31 @@ end;
 
 procedure TScene.LoadScene;
 begin
-  ShowMessage(QueryDB<array>()
+  self.QueryDB('SELECT * FROM cams');
+
+  while not dbQuery.Eof do begin
+    ShowMessage(dbQuery.FieldByName('name').AsString);
+    dbQuery.Next;
+  end;
 end;
 
 procedure TScene.QueryDB(query: string);
 begin
-  self.QueryDB<T>(query, False);
+  self.QueryDB(query, False);
 end;
 
 procedure TScene.QueryDB(query: string; hasResult: boolean);
-var
-  output: TList<T>;
 begin
-  while dbOngoingQuery do
-    SysUtils.Sleep(1);
+  while dbOngoingQuery do begin end;
 
   dbOngoingQuery := True;
 
-  dbQuery.SQL.Text := query;
-  dbQuery.Active := True;
+  try
+    dbQuery.SQL.Text := query;
+    dbQuery.Active := True;
+  except on E: Exception do
+    ShowMessage('Error while executing statement "' + query + '": ' + E.Message);
+  end;
 
   if not hasResult then
     dbOngoingQuery := False;

@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, URender, Vcl.StdCtrls,
-  UScene, Data.FMTBcd, Data.DB, Data.SqlExpr;
+  UScene, Data.FMTBcd, Data.DB, Data.SqlExpr, Data.DbxSqlite;
 
 type
   TRenderForm = class(TForm)
