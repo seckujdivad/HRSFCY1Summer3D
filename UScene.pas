@@ -113,7 +113,7 @@ end;
 procedure TScene.LoadScene;
 begin
   //get default camera and load into memory
-  self.QueryDB('SELECT * FROM cams WHERE default=1;');
+  self.QueryDB('SELECT * FROM cams WHERE isdefault = 1;');
 
   //assume there is one default camera
   scene_cam := TCamera.Create();
