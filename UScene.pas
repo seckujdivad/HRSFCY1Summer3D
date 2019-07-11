@@ -28,9 +28,16 @@ type
     private
       cam_pos: TPoint;
       cam_aspect: real;
+      cam_rot: TPoint;
+
+      procedure SetPos(index: integer; value: real);
+      procedure SetRot(index: integer; value: real);
+      function GetPos(index: integer): real;
+      function GetRot(index: integer): real;
     public
-      property pos: TPoint read cam_pos write cam_pos;
+      property pos[index: integer]: real read GetPos write SetPos;
       property aspect: real read cam_aspect write cam_aspect;
+      property rot[index: integer]: real read GetRot write SetRot;
 
       procedure SetAspectRatio(x, y: integer);
   end;
@@ -57,9 +64,29 @@ implementation
 
 { TCamera }
 
+function TCamera.GetPos(index: integer): real;
+begin
+  result := cam_pos[index];
+end;
+
+function TCamera.GetRot(index: integer): real;
+begin
+  result := cam_rot[index];
+end;
+
 procedure TCamera.SetAspectRatio(x, y: integer);
 begin
   aspect := y / x;
+end;
+
+procedure TCamera.SetPos(index: integer; value: real);
+begin
+  cam_pos[index] := value;
+end;
+
+procedure TCamera.SetRot(index: integer; value: real);
+begin
+  cam_rot[index] := value;
 end;
 
 { TScene }
@@ -85,7 +112,14 @@ end;
 
 procedure TScene.LoadScene;
 begin
-  self.QueryDB('SELECT name FROM cams;');
+  //get default camera and load into memory
+  self.QueryDB('SELECT * FROM cams WHERE default=1;');
+
+  //assume there is one default camera
+  scene_cam := TCamera.Create();
+  scene_cam.pos[0] := dbQuery.FieldByName('pos x').AsFloat;
+  scene_cam.pos[1] := dbQuery.FieldByName('pos y').AsFloat;
+  scene_cam.pos[2] := dbQuery.FieldByName('pos z').AsFloat;
 
   while not dbQuery.Eof do begin
     ShowMessage(dbQuery.FieldByName('name').AsString);
