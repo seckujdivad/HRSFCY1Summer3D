@@ -138,6 +138,8 @@ begin
   scene_cam := TCamera.Create();
   scene_cam.Interpret(self.dbQuery);
 
+  self.ReleaseDB;
+
   while not dbQuery.Eof do begin
     ShowMessage(dbQuery.FieldByName('name').AsString);
     dbQuery.Next;
