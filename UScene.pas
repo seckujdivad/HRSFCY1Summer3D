@@ -322,9 +322,9 @@ var
   cursor: integer;
 begin
   for cursor := 0 to 2 do begin
-    points[cursor][0] := query.FieldByName('x' + IntToStr(cursor)).AsFloat;
-    points[cursor][1] := query.FieldByName('y' + IntToStr(cursor)).AsFloat;
-    points[cursor][2] := query.FieldByName('z' + IntToStr(cursor)).AsFloat;
+    points[cursor, 0] := query.FieldByName('x' + IntToStr(cursor)).AsFloat;
+    points[cursor, 1] := query.FieldByName('y' + IntToStr(cursor)).AsFloat;
+    points[cursor, 2] := query.FieldByName('z' + IntToStr(cursor)).AsFloat;
   end;
 end;
 
