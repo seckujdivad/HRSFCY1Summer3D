@@ -149,9 +149,9 @@ begin
   end;
 
   for i := 0 to 2 do begin
-    self[i] := Scale(self[i], ArrToList(parentObj.arrayScale));
-    self[i] := Rotate(self[i], ArrToList(parentObj.arrayRot));
-    self[i] := Transform(self[i], ArrToList(parentObj.arrayPos));
+    Items[i] := Scale(Items[i], ArrToList(parentObj.arrayScale));
+    Items[i] := Rotate(Items[i], ArrToList(parentObj.arrayRot));
+    Items[i] := Transform(Items[i], ArrToList(parentObj.arrayPos));
   end;
 
 end;
