@@ -167,6 +167,7 @@ begin
   while not dbQuery.Eof do begin
     sceneObj := TSceneObj.Create(dbQuery.FieldByName('modelID').AsInteger);
     sceneObj.Interpret(dbQuery);
+    Add(sceneObj);
     dbQuery.Next;
   end;
 end;
@@ -223,10 +224,19 @@ end;
 procedure TSceneObj.Interpret(query: TSQLQuery);
 begin
   //pos
-  pos
+  o_pos[0] := query.FieldByName('pos x').AsFloat;
+  o_pos[1] := query.FieldByName('pos y').AsFloat;
+  o_pos[2] := query.FieldByName('pos z').AsFloat;
 
   //rot
+  o_rot[0] := query.FieldByName('rot x').AsFloat;
+  o_rot[1] := query.FieldByName('rot y').AsFloat;
+  o_rot[2] := query.FieldByName('rot z').AsFloat;
+
   //scale
+  o_scale[0] := query.FieldByName('scale x').AsFloat;
+  o_scale[1] := query.FieldByName('scale y').AsFloat;
+  o_scale[2] := query.FieldByName('scale z').AsFloat;
 end;
 
 procedure TSceneObj.SetPos(index: integer; value: real);
