@@ -181,7 +181,8 @@ end;
 
 procedure TScene.QueryDB(query: string; hasResult: boolean);
 begin
-  while dbOngoingQuery do begin end;
+  while dbOngoingQuery do
+    SysUtils.Sleep(1);
 
   dbOngoingQuery := True;
 
