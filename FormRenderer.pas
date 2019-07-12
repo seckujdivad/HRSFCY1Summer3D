@@ -44,8 +44,6 @@ procedure TRenderForm.SetScene(path: string);
 begin
   self.scene := TScene.Create(path, SQLConnScene, SQLQueryScene);
   self.renderer.SetScene(self.scene);
-
-  LblStatus.Caption := path;
 end;
 
 end.
