@@ -51,7 +51,44 @@ begin
 end;
 
 function Rotate(point, rotate: TList<real>): TList<real>;
+var
+  value, theta: real;
+  i: integer;
+  old_values: TList<real>;
 begin
+  result := TList<real>.Create;
+  old_values := TList<real>.Create;
+
+  for i := 0 to 2 do
+    old_values[i] := point[i];
+
+  // x
+  theta := DegToRad(rotate[0]);
+  result.Add(old_values[0]);
+  result.Add((Cos(theta) * old_values[1]) - (Sin(theta) * old_values[2]));
+  result.Add((Sin(theta) * old_values[1]) + (Cos(theta) * old_values[2]));
+
+  old_values.Free;
+  old_values := result;
+  result := TList<real>.Create;
+
+  // y
+  theta := DegToRad(rotate[1]);
+  result.Add((Cos(theta) * old_values[0]) + (Sin(theta) * old_values[2]));
+  result.Add(old_values[1]);
+  result.Add((-1 * Sin(theta) * old_values[0]) + (Cos(theta) * old_values[2]));
+
+  old_values.Free;
+  old_values := result;
+  result := TList<real>.Create;
+
+  // z
+  theta := DegToRad(rotate[2]);
+  result.Add((Cos(theta) * old_values[0]) + (-1 * Sin(theta) * old_values[1]));
+  result.Add((Sin(theta) * old_values[0]) + (Cos(theta) * old_values[1]));
+  result.Add(old_values[2]);
+
+  old_values.Free;
 end;
 
 function Scale(point, scale: TList<real>): TList<real>;
