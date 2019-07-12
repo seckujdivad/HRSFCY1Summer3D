@@ -2,7 +2,7 @@ unit UPointUtils;
 
 interface
 uses
-  UScene, Generics.Collections;
+  UScene, Generics.Collections, System.Math;
 
 function ArrToList(point: TPoint): TList<real>;
 function ListToArr(point: TList<real>): TPoint;
@@ -39,6 +39,30 @@ begin
 end;
 
 { list methods }
+
+function Transform(point, point2: TList<real>): TList<real>;
+var
+  i: integer;
+begin
+  result := TList<real>.Create;
+
+  for i := 0 to 2 do
+    result.Add(point[i] + point2[i]);
+end;
+
+function Rotate(point, rotate: TList<real>): TList<real>;
+begin
+end;
+
+function Scale(point, scale: TList<real>): TList<real>;
+var
+  i: integer;
+begin
+  result := TList<real>.Create;
+
+  for i := 0 to 2 do
+    result.Add(point[i] * scale[i]);
+end;
 
 { array methods }
 
