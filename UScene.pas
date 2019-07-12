@@ -205,7 +205,7 @@ end;
 
 constructor TSceneObj.Create(identifier: integer);
 begin
-  uid := identifier;
+  o_uid := identifier;
 end;
 
 function TSceneObj.GetPos(index: integer): real;
