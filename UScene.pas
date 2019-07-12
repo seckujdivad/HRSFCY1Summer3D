@@ -11,17 +11,35 @@ type
   TTriangle = class
     private
       tri_points: TTriPoints;
+
+      procedure SetPoints(index, index2: integer; value: real);
+
+      function GetPoints(index, index2: integer): real;
     public
-      property points: TTriPoints read tri_points write tri_points;
+      property points[index, index2: integer]: real read GetPoints write SetPoints;
   end;
 
   TSceneObj = class(TList<TTriangle>)
     private
       o_pos, o_rot, o_scale: TPoint;
+      o_uid: integer;
+
+      procedure SetPos(index: integer; value: real);
+      procedure SetRot(index: integer; value: real);
+      procedure SetScale(index: integer; value: real);
+
+      function GetPos(index: integer): real;
+      function GetRot(index: integer): real;
+      function GetScale(index: integer): real;
     public
-      property pos: TPoint read o_pos write o_pos;
-      property rot: TPoint read o_rot write o_rot;
-      property scale: TPoint read o_scale write o_scale;
+      property pos[index: integer]: real read GetPos write SetPos;
+      property rot[index: integer]: real read GetRot write SetRot;
+      property scale[index: integer]: real read GetScale write SetScale;
+      property uid: integer read o_uid;
+
+      constructor Create(identifier: integer);
+
+      procedure Interpret(query: TSQLQuery);
   end;
 
   TCamera = class
@@ -34,6 +52,7 @@ type
 
       procedure SetPos(index: integer; value: real);
       procedure SetRot(index: integer; value: real);
+
       function GetPos(index: integer): real;
       function GetRot(index: integer): real;
     public
@@ -130,9 +149,11 @@ begin
 end;
 
 procedure TScene.LoadScene;
+var
+  sceneObj: TSceneObj;
 begin
   //get default camera and load into memory
-  self.QueryDB('SELECT * FROM cams WHERE isdefault = 1;');
+  self.QueryDB('SELECT * FROM cams WHERE isdefault = 1');
 
   //assume there is one default camera
   scene_cam := TCamera.Create();
@@ -140,8 +161,12 @@ begin
 
   self.ReleaseDB;
 
+  //get model information
+  self.QueryDB('SELECT * FROM scene WHERE vis = 1');
+
   while not dbQuery.Eof do begin
-    ShowMessage(dbQuery.FieldByName('name').AsString);
+    sceneObj := TSceneObj.Create(dbQuery.FieldByName('modelID').AsInteger);
+    sceneObj.Interpret(dbQuery);
     dbQuery.Next;
   end;
 end;
@@ -171,6 +196,64 @@ end;
 procedure TScene.ReleaseDB;
 begin
   dbOngoingQuery := False;
+end;
+
+{ TSceneObj }
+
+constructor TSceneObj.Create(identifier: integer);
+begin
+  uid := identifier;
+end;
+
+function TSceneObj.GetPos(index: integer): real;
+begin
+  result := o_pos[index];
+end;
+
+function TSceneObj.GetRot(index: integer): real;
+begin
+  result := o_rot[index];
+end;
+
+function TSceneObj.GetScale(index: integer): real;
+begin
+  result := o_scale[index];
+end;
+
+procedure TSceneObj.Interpret(query: TSQLQuery);
+begin
+  //pos
+  pos
+
+  //rot
+  //scale
+end;
+
+procedure TSceneObj.SetPos(index: integer; value: real);
+begin
+  o_pos[index] := value;
+end;
+
+procedure TSceneObj.SetRot(index: integer; value: real);
+begin
+  o_rot[index] := value;
+end;
+
+procedure TSceneObj.SetScale(index: integer; value: real);
+begin
+  o_scale[index] := value;
+end;
+
+{ TTriangle }
+
+function TTriangle.GetPoints(index, index2: integer): real;
+begin
+  result := tri_points[index][index2];
+end;
+
+procedure TTriangle.SetPoints(index, index2: integer; value: real);
+begin
+  tri_points[index][index2] := value;
 end;
 
 end.
