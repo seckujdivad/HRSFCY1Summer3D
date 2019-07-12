@@ -11,12 +11,16 @@ type
   TTriangle = class
     private
       tri_points: TTriPoints;
+      tri_mat_name, tri_mat_col: string;
 
       procedure SetPoints(index, index2: integer; value: real);
 
       function GetPoints(index, index2: integer): real;
     public
       property points[index, index2: integer]: real read GetPoints write SetPoints;
+
+      property mat_name: string read tri_mat_name write tri_mat_name;
+      property mat_col: string read tri_mat_col write tri_mat_col;
   end;
 
   TSceneObj = class(TList<TTriangle>)
