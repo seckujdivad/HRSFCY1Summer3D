@@ -12,6 +12,8 @@ type
       property colour: string read tri_col write tri_col;
 
       constructor Create(triangle: TTriangle; parentObj: TSceneObj);
+
+      procedure ApplyCamera(camera: TCamera);
   end;
 
   TSimpleScene = TList<TRenderTri>;
@@ -29,6 +31,7 @@ type
       procedure Render;
 
       procedure ExtractSceneAsTris;
+      procedure SceneSpaceToCameraSpace;
   end;
 
 implementation
@@ -60,6 +63,15 @@ end;
 procedure TRender.Render;
 begin
   self.ExtractSceneAsTris;
+  self.SceneSpaceToCameraSpace;
+end;
+
+procedure TRender.SceneSpaceToCameraSpace;
+var
+  triangle: TRenderTri;
+begin
+  for triangle in sceneTris do
+    triangle.ApplyCamera(self.scene.camera);
 end;
 
 procedure TRender.SetScene(newScene: TScene);
@@ -68,6 +80,17 @@ begin
 end;
 
 { TRenderTri }
+
+procedure TRenderTri.ApplyCamera(camera: TCamera);
+var
+  points: TList<real>;
+  i: integer;
+begin
+  for i := 0 to 2 do begin
+    self[i] := Transform(self[i], ArrToList(camera.arrayPos));
+    self[i] := Rotate(self[i], ArrToList(camera.arrayRot));
+  end;
+end;
 
 constructor TRenderTri.Create(triangle: TTriangle; parentObj: TSceneObj);
 var

@@ -79,6 +79,9 @@ type
       property name: string read cam_name write cam_name;
       property fov: real read cam_fov write cam_fov;
 
+      property arrayPos: TPoint read cam_pos write cam_pos;
+      property arrayRot: TPoint read cam_rot write cam_rot;
+
       procedure SetAspectRatio(x, y: integer);
       procedure Interpret(query: TSQLQuery);
   end;
@@ -98,6 +101,8 @@ type
       procedure ReleaseDB;
     public
       constructor Create(scenePath: string; conn: TSQLConnection; query: TSQLQuery);
+
+      property camera: TCamera read scene_cam write scene_cam;
   end;
 
 
