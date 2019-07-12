@@ -6,7 +6,8 @@ uses
   URender in 'URender.pas',
   UScene in 'UScene.pas',
   FormDatabase in 'FormDatabase.pas' {DatabaseForm},
-  FormMain in 'FormMain.pas' {MainForm};
+  FormMain in 'FormMain.pas' {MainForm},
+  UPointUtils in 'UPointUtils.pas';
 
 {$R *.res}
 
