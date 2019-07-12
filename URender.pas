@@ -2,7 +2,7 @@ unit URender;
 
 interface
 uses
-  Vcl.Graphics, UScene, Generics.Collections;
+  Vcl.Graphics, UScene, Generics.Collections, UPointUtils;
 
 type
   TRenderTri = class(TList<TList<real>>)
@@ -10,6 +10,8 @@ type
       tri_col: string;
     public
       property colour: string read tri_col write tri_col;
+
+      constructor Create(triangle: TTriangle; parentObj: TSceneObj);
   end;
 
   TSimpleScene = TList<TRenderTri>;
@@ -18,11 +20,15 @@ type
     private
       canvas: TCanvas;
       scene: TScene;
+
+      sceneTris: TSimpleScene;
     public
       constructor Create(renderTo: TCanvas);
 
       procedure SetScene(newScene: TScene);
       procedure Render;
+
+      procedure ExtractSceneAsTris;
   end;
 
 implementation
@@ -32,16 +38,61 @@ implementation
 constructor TRender.Create(renderTo: TCanvas);
 begin
   self.canvas := renderTo;
+
+  self.sceneTris := TSimpleScene.Create;
+end;
+
+procedure TRender.ExtractSceneAsTris;
+var
+  sceneObj: TSceneObj;
+  tri: TTriangle;
+  render_tri: TRenderTri;
+begin
+  self.sceneTris.Clear;
+
+  for sceneObj in self.scene do
+    for tri in sceneObj do begin
+      render_tri := TRenderTri.Create(tri, sceneObj);
+      sceneTris.Add(render_tri);
+    end;
 end;
 
 procedure TRender.Render;
 begin
-
+  self.ExtractSceneAsTris;
 end;
 
 procedure TRender.SetScene(newScene: TScene);
 begin
   self.scene := newScene;
+end;
+
+{ TRenderTri }
+
+constructor TRenderTri.Create(triangle: TTriangle; parentObj: TSceneObj);
+var
+ point: TPoint;
+ value: real;
+ points: TList<real>;
+ i: integer;
+begin
+  inherited Create;
+
+  for point in triangle do begin
+    points := TList<integer>.Create;
+
+    for value in point do
+      points.Add(value);
+
+    Add(points);
+  end;
+
+  for i := 0 to self.Count - 1 do begin
+    self[i] := Scale(self[i], ArrToList(parentObj.arrayScale));
+    self[i] := Rotate(self[i], ArrToList(parentObj.arrayRot));
+    self[i] := Transform(self[i], ArrToList(parentObj.arrayPos));
+  end;
+
 end;
 
 end.
