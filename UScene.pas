@@ -203,6 +203,20 @@ begin
   end;
 
   self.ReleaseDB;
+
+  self.QueryDB('SELECT * FROM materials', True);
+
+  while not dbQuery.Eof do begin
+    for sceneObj in self do
+      for tri in sceneObj do
+        if tri.mat_uid = dbQuery.FieldByName('materialID').AsInteger then begin
+          tri.mat_col := dbQuery.FieldByName('colour').AsString;
+          tri.mat_name := dbQuery.FieldByName('name').AsString;
+        end;
+    dbQuery.Next;
+  end;
+
+  self.ReleaseDB;
 end;
 
 procedure TScene.QueryDB(query: string);
