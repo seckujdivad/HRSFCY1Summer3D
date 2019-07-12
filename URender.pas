@@ -2,9 +2,18 @@ unit URender;
 
 interface
 uses
-  Vcl.Graphics, UScene;
+  Vcl.Graphics, UScene, Generics.Collections;
 
 type
+  TRenderTri = class(TList<TList<real>>)
+    private
+      tri_col: string;
+    public
+      property colour: string read tri_col write tri_col;
+  end;
+
+  TSimpleScene = TList<TRenderTri>;
+
   TRender = class
     private
       canvas: TCanvas;
