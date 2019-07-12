@@ -2,14 +2,18 @@ unit URender;
 
 interface
 uses
-  Vcl.Graphics, UScene, Generics.Collections, UPointUtils;
+  Vcl.Graphics, UScene, Generics.Collections, UPointUtils,
+  System.Generics.Defaults;
 
 type
   TRenderTri = class(TList<TList<real>>)
     private
       tri_col: string;
+
+      function GetZ: real;
     public
       property colour: string read tri_col write tri_col;
+      property z: real read GetZ;
 
       constructor Create(triangle: TTriangle; parentObj: TSceneObj);
 
@@ -22,21 +26,37 @@ type
     private
       canvas: TCanvas;
       scene: TScene;
-
       sceneTris: TSimpleScene;
+
+      procedure ExtractSceneAsTris;
+      procedure SceneSpaceToCameraSpace;
+      procedure ZBuffer;
+      function CompareTris(tri0, tri1: TRenderTri): integer;
     public
       constructor Create(renderTo: TCanvas);
 
       procedure SetScene(newScene: TScene);
       procedure Render;
-
-      procedure ExtractSceneAsTris;
-      procedure SceneSpaceToCameraSpace;
   end;
 
 implementation
 
 { TRender }
+
+function TRender.CompareTris(tri0, tri1: TRenderTri): integer;
+var
+  z0, z1: real;
+begin
+  z0 := tri0.z;
+  z1 := tri1.z;
+
+  if z0 < z1 then
+    result := 1
+  else if z0 > z1 then
+    result := -1
+  else
+    result := 0;
+end;
 
 constructor TRender.Create(renderTo: TCanvas);
 begin
@@ -64,6 +84,7 @@ procedure TRender.Render;
 begin
   self.ExtractSceneAsTris;
   self.SceneSpaceToCameraSpace;
+  self.ZBuffer;
 end;
 
 procedure TRender.SceneSpaceToCameraSpace;
@@ -79,11 +100,28 @@ begin
   self.scene := newScene;
 end;
 
+procedure TRender.ZBuffer;
+begin
+  sceneTris.Sort(TComparer<TRenderTri>.Construct(function(const tri0, tri1: TRenderTri): integer
+    var
+      z0, z1: real;
+    begin
+    z0 := tri0.z;
+    z1 := tri1.z;
+
+    if z0 < z1 then
+      result := 1
+    else if z0 > z1 then
+      result := -1
+    else
+      result := 0;
+  end));
+end;
+
 { TRenderTri }
 
 procedure TRenderTri.ApplyCamera(camera: TCamera);
 var
-  points: TList<real>;
   i: integer;
 begin
   for i := 0 to 2 do begin
@@ -97,25 +135,37 @@ var
  point: TPoint;
  value: real;
  points: TList<real>;
- i: integer;
+ i, j: integer;
 begin
   inherited Create;
 
-  for point in triangle do begin
-    points := TList<integer>.Create;
+  for i := 0 to 2 do begin
+    points := TList<real>.Create;
 
-    for value in point do
+    for value in triangle.arrayPoints[i] do
       points.Add(value);
 
     Add(points);
   end;
 
-  for i := 0 to self.Count - 1 do begin
+  for i := 0 to 2 do begin
     self[i] := Scale(self[i], ArrToList(parentObj.arrayScale));
     self[i] := Rotate(self[i], ArrToList(parentObj.arrayRot));
     self[i] := Transform(self[i], ArrToList(parentObj.arrayPos));
   end;
 
+end;
+
+function TRenderTri.GetZ: real;
+var
+ point: TList<real>;
+begin
+  result := 0;
+
+  for point in self do
+    result := result + point[2];
+
+  result := result / Count;
 end;
 
 end.

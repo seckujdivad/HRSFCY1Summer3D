@@ -20,6 +20,7 @@ type
       function GetPoints(index, index2: integer): real;
     public
       property points[index, index2: integer]: real read GetPoints write SetPoints;
+      property arrayPoints: TTriPoints read tri_points write tri_points;
 
       property mat_name: string read tri_mat_name write tri_mat_name;
       property mat_col: string read tri_mat_col write tri_mat_col;
