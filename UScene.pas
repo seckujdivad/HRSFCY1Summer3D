@@ -12,6 +12,7 @@ type
     private
       tri_points: TTriPoints;
       tri_mat_name, tri_mat_col: string;
+      tri_mdl_uid, tri_mat_uid: integer;
 
       procedure SetPoints(index, index2: integer; value: real);
 
@@ -21,6 +22,13 @@ type
 
       property mat_name: string read tri_mat_name write tri_mat_name;
       property mat_col: string read tri_mat_col write tri_mat_col;
+      property mat_uid: integer read tri_mat_uid;
+
+      property mdl_uid: integer read tri_mdl_uid;
+
+      procedure Interpret(query: TSQLQuery);
+
+      constructor Create(model_identifier, material_identifier: integer);
   end;
 
   TSceneObj = class(TList<TTriangle>)
@@ -160,7 +168,7 @@ var
   tri: TTriangle;
 begin
   //get default camera and load into memory
-  self.QueryDB('SELECT * FROM cams WHERE isdefault = 1');
+  self.QueryDB('SELECT * FROM cams WHERE isdefault = 1', True);
 
   //assume there is one default camera
   scene_cam := TCamera.Create();
@@ -169,16 +177,32 @@ begin
   self.ReleaseDB;
 
   //get model information
-  self.QueryDB('SELECT * FROM scene WHERE vis = 1');
+  self.QueryDB('SELECT * FROM scene WHERE vis = 1', True);
 
   while not dbQuery.Eof do begin
     sceneObj := TSceneObj.Create(dbQuery.FieldByName('modelID').AsInteger);
     sceneObj.Interpret(dbQuery);
     Add(sceneObj);
+
     dbQuery.Next;
   end;
 
+  self.ReleaseDB;
 
+  self.QueryDB('SELECT * FROM brushes', True);
+
+  while not dbQuery.Eof do begin
+    tri := TTriangle.Create(dbQuery.FieldByName('modelID').AsInteger, dbQuery.FieldByName('materialID').AsInteger);
+    tri.Interpret(dbQuery);
+
+    for sceneObj in self do
+      if sceneObj.uid = tri.mdl_uid then
+        sceneObj.Add(tri);
+
+    dbQuery.Next;
+  end;
+
+  self.ReleaseDB;
 end;
 
 procedure TScene.QueryDB(query: string);
@@ -268,9 +292,26 @@ end;
 
 { TTriangle }
 
+constructor TTriangle.Create(model_identifier, material_identifier: integer);
+begin
+  tri_mdl_uid := model_identifier;
+  tri_mat_uid := material_identifier;
+end;
+
 function TTriangle.GetPoints(index, index2: integer): real;
 begin
   result := tri_points[index][index2];
+end;
+
+procedure TTriangle.Interpret(query: TSQLQuery);
+var
+  cursor: integer;
+begin
+  for cursor := 0 to 2 do begin
+    points[cursor][0] := query.FieldByName('x' + IntToStr(cursor)).AsFloat;
+    points[cursor][1] := query.FieldByName('y' + IntToStr(cursor)).AsFloat;
+    points[cursor][2] := query.FieldByName('z' + IntToStr(cursor)).AsFloat;
+  end;
 end;
 
 procedure TTriangle.SetPoints(index, index2: integer; value: real);
