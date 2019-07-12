@@ -131,6 +131,8 @@ end;
 
 constructor TScene.Create(scenePath: string; conn: TSQLConnection; query: TSQLQuery);
 begin
+  inherited Create;
+
   path := scenePath;
 
   dbConn := conn;
