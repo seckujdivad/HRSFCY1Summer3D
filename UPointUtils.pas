@@ -38,4 +38,23 @@ begin
     result[i] := point[i];
 end;
 
+{ list methods }
+
+{ array methods }
+
+function Transform(point, point2: TPoint): TPoint;
+begin
+  result := ListToArr(Transform(ArrToList(point, point2)));
+end;
+
+function Rotate(point, rotate: TPoint): TPoint;
+begin
+  result := ListToArr(Rotate(ArrToList(point, rotate)));
+end;
+
+function Scale(point, scale: TPoint): TPoint;
+begin
+  result := ListToArr(Scale(ArrToList(point, scale)));
+end;
+
 end.
