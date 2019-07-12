@@ -2,7 +2,8 @@ unit UScene;
 
 interface
 uses
-  Generics.Collections, Data.FMTBcd, Data.DB, Data.SqlExpr, Vcl.Dialogs, SysUtils;
+  Generics.Collections, Data.FMTBcd, Data.DB, Data.SqlExpr, Vcl.Dialogs,
+  SysUtils;
 
 type
   TPoint = array[0..2] of real;
@@ -48,6 +49,10 @@ type
       property rot[index: integer]: real read GetRot write SetRot;
       property scale[index: integer]: real read GetScale write SetScale;
       property uid: integer read o_uid;
+
+      property arrayPos: TPoint read o_pos write o_pos;
+      property arrayRot: TPoint read o_rot write o_rot;
+      property arrayScale: TPoint read o_scale write o_scale;
 
       constructor Create(identifier: integer);
 
