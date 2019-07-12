@@ -153,6 +153,7 @@ end;
 procedure TScene.LoadScene;
 var
   sceneObj: TSceneObj;
+  tri: TTriangle;
 begin
   //get default camera and load into memory
   self.QueryDB('SELECT * FROM cams WHERE isdefault = 1');
@@ -172,6 +173,8 @@ begin
     Add(sceneObj);
     dbQuery.Next;
   end;
+
+
 end;
 
 procedure TScene.QueryDB(query: string);
@@ -206,6 +209,8 @@ end;
 
 constructor TSceneObj.Create(identifier: integer);
 begin
+  inherited Create;
+
   o_uid := identifier;
 end;
 
