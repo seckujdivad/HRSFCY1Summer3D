@@ -37,7 +37,7 @@ procedure TRenderForm.BtnRenderClick(Sender: TObject);
 begin
   ClearCanvas;
   self.renderer.Render(RdoMethod.ItemIndex);
-  self.scene.camera.rot[0] := self.scene.camera.rot[0] + 1;
+  self.scene[0].rot[2] := self.scene[0].rot[2] + 10;
   //ShowMessage(IntToStr(Trunc(self.scene.camera.rot[0])));
 end;
 

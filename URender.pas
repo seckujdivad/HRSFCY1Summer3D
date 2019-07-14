@@ -207,8 +207,8 @@ begin
       x := Tan(self[i][0] / self[i][2]);
       y := Tan(self[i][1] / self[i][2]);
 
-      x := RadToDeg(x) / 90;
-      y := RadToDeg(y) / 90;
+      x := RadToDeg(x) / 45;
+      y := RadToDeg(y) / 45;
 
       //ShowMessage('SCREEN X: ' + IntToStr(Trunc(x * 100)) + '% Y: ' + IntToStr(Trunc(y * 100)) + '%');
 
