@@ -2,19 +2,24 @@ unit UPointUtils;
 
 interface
 uses
-  UScene, Generics.Collections, System.Math;
+  UScene, Generics.Collections, System.Math, Vcl.Dialogs, SysUtils;
 
 function ArrToList(point: TPoint): TList<real>;
 function ListToArr(point: TList<real>): TPoint;
 
-//function Transform(point, point2: TPoint): TPoint; overload;
-function Transform(point, point2: TList<real>): TList<real>; overload;
+type
+  TPointList = class(TList<real>)
+    private
+    public
+      constructor Create;
 
-//function Rotate(point, rotate: TPoint): TPoint; overload;
-function Rotate(point, rotate: TList<real>): TList<real>; overload;
-
-//function Scale(point, scale: TPoint): TPoint; overload;
-function Scale(point, scale: TList<real>): TList<real>; overload;
+      procedure Transform(point: TPoint); overload;
+      procedure Transform(point: TList<real>); overload;
+      procedure Rotate(rotate: TPoint); overload;
+      procedure Rotate(rotate: TList<real>); overload;
+      procedure Scale(scale: TPoint); overload;
+      procedure Scale(scale: TList<real>); overload;
+  end;
 
 implementation
 
@@ -38,29 +43,25 @@ begin
     result[i] := point[i];
 end;
 
-{ list methods }
+{ TPointList }
 
-function Transform(point, point2: TList<real>): TList<real>;
-var
-  i: integer;
+constructor TPointList.Create;
 begin
-  result := TList<real>.Create;
-
-  for i := 0 to 2 do
-    result.Add(point[i] + point2[i]);
+  inherited Create;
 end;
 
-function Rotate(point, rotate: TList<real>): TList<real>;
+procedure TPointList.Rotate(rotate: TList<real>);
 var
-  value, theta: real;
+  theta: real;
   i: integer;
   old_values: TList<real>;
+  result:  TList<real>;
 begin
   result := TList<real>.Create;
   old_values := TList<real>.Create;
 
   for i := 0 to 2 do
-    old_values[i] := point[i];
+    old_values.Add(self[i]);
 
   // x
   theta := DegToRad(rotate[0]);
@@ -89,33 +90,52 @@ begin
   result.Add(old_values[2]);
 
   old_values.Free;
+
+  for i := 0 to 2 do
+    self[i] := result[i];
 end;
 
-function Scale(point, scale: TList<real>): TList<real>;
+procedure TPointList.Rotate(rotate: TPoint);
+begin
+  self.Rotate(ArrToList(rotate));
+end;
+
+procedure TPointList.Scale(scale: TPoint);
+begin
+  self.Scale(ArrToList(scale));
+end;
+
+procedure TPointList.Scale(scale: TList<real>);
 var
   i: integer;
+  result: TList<real>;
 begin
   result := TList<real>.Create;
 
   for i := 0 to 2 do
-    result.Add(point[i] * scale[i]);
+    result.Add(Items[i] * scale[i]);
+
+  for i := 0 to 2 do
+    self[i] := result[i];
 end;
 
-{ array methods }
-
-{function Transform(point, point2: TPoint): TPoint;
+procedure TPointList.Transform(point: TList<real>);
+var
+  i: integer;
+  result: TList<real>;
 begin
-  result := ListToArr(Transform(ArrToList(point), ArrToList(point2)));
+  result := TList<real>.Create;
+
+  for i := 0 to 2 do
+    result.Add(self[i] + point[i]);
+
+  for i := 0 to 2 do
+    self[i] := result[i];
 end;
 
-function Rotate(point, rotate: TPoint): TPoint;
+procedure TPointList.Transform(point: TPoint);
 begin
-  result := ListToArr(Rotate(ArrToList(point), ArrToList(rotate)));
+  self.Transform(ArrToList(point));
 end;
-
-function Scale(point, scale: TPoint): TPoint;
-begin
-  result := ListToArr(Scale(ArrToList(point), ArrToList(scale)));
-end;}
 
 end.

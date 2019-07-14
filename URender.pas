@@ -3,10 +3,10 @@ unit URender;
 interface
 uses
   Vcl.Graphics, UScene, Generics.Collections, UPointUtils,
-  System.Generics.Defaults;
+  System.Generics.Defaults, Vcl.Dialogs, SysUtils;
 
 type
-  TRenderTri = class(TList<TList<real>>)
+  TRenderTri = class(TList<TPointList>)
     private
       tri_col: string;
 
@@ -125,22 +125,21 @@ var
   i: integer;
 begin
   for i := 0 to 2 do begin
-    self[i] := Transform(self[i], ArrToList(camera.arrayPos));
-    self[i] := Rotate(self[i], ArrToList(camera.arrayRot));
+    self[i].Transform(camera.arrayPos);
+    self[i].Rotate(camera.arrayRot);
   end;
 end;
 
 constructor TRenderTri.Create(triangle: TTriangle; parentObj: TSceneObj);
 var
- point: TPoint;
  value: real;
- points: TList<real>;
- i, j: integer;
+ points: TPointList;
+ i: integer;
 begin
   inherited Create;
 
   for i := 0 to 2 do begin
-    points := TList<real>.Create;
+    points := TPointList.Create;
 
     for value in triangle.arrayPoints[i] do
       points.Add(value);
@@ -148,11 +147,11 @@ begin
     Add(points);
   end;
 
-  for i := 0 to 2 do begin
+  {for i := 0 to 2 do begin
     Items[i] := Scale(Items[i], ArrToList(parentObj.arrayScale));
     Items[i] := Rotate(Items[i], ArrToList(parentObj.arrayRot));
     Items[i] := Transform(Items[i], ArrToList(parentObj.arrayPos));
-  end;
+  end;}
 
 end;
 
