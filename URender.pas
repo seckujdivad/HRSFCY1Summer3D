@@ -118,7 +118,7 @@ begin
   self.scene := newScene;
 end;
 
-procedure TRender.ZBuffer; //order by z coordinate
+procedure TRender.ZBuffer; //order by z coordinate - very primitive
 begin
   sceneTris.Sort(TComparer<TRenderTri>.Construct(function(const tri0, tri1: TRenderTri): integer
     var
@@ -128,9 +128,9 @@ begin
     z1 := tri1.z;
 
     if z0 < z1 then
-      result := 1
-    else if z0 > z1 then
       result := -1
+    else if z0 > z1 then
+      result := 1
     else
       result := 0;
   end));
