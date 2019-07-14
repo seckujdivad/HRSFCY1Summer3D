@@ -147,11 +147,11 @@ begin
     Add(points);
   end;
 
-  {for i := 0 to 2 do begin
-    Items[i] := Scale(Items[i], ArrToList(parentObj.arrayScale));
-    Items[i] := Rotate(Items[i], ArrToList(parentObj.arrayRot));
-    Items[i] := Transform(Items[i], ArrToList(parentObj.arrayPos));
-  end;}
+  for i := 0 to 2 do begin
+    self[i].Scale(parentObj.arrayScale);
+    self[i].Rotate(parentObj.arrayRot);
+    self[i].Transform(parentObj.arrayPos);
+  end;
 
 end;
 
