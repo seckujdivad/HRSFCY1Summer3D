@@ -73,6 +73,7 @@ object RenderForm: TRenderForm
       'Orthographic'
       'Perspective')
     TabOrder = 1
+    OnClick = RdoMethodClick
   end
   object TrkX: TTrackBar
     Left = 280

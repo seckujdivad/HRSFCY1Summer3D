@@ -28,6 +28,7 @@ type
     procedure TrkYChange(Sender: TObject);
     procedure TrkZChange(Sender: TObject);
     procedure LbSceneItemsClick(Sender: TObject);
+    procedure RdoMethodClick(Sender: TObject);
   private
     renderer: TRender;
     scene: TScene;
@@ -73,6 +74,11 @@ begin
     TrkY.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[1]);
     TrkZ.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[2]);
   end;
+end;
+
+procedure TRenderForm.RdoMethodClick(Sender: TObject);
+begin
+  RenderScene;
 end;
 
 procedure TRenderForm.RenderScene;
