@@ -48,7 +48,7 @@ implementation
 
 { TRender }
 
-function TRender.CompareTris(tri0, tri1: TRenderTri): integer;
+function TRender.CompareTris(tri0, tri1: TRenderTri): integer; //compare function for zbuffer sorting
 var
   z0, z1: real;
 begin
@@ -70,7 +70,7 @@ begin
   self.sceneTris := TSimpleScene.Create;
 end;
 
-procedure TRender.ExtractSceneAsTris;
+procedure TRender.ExtractSceneAsTris; //turn scene objects into basic triangles ready for render
 var
   sceneObj: TSceneObj;
   tri: TTriangle;
@@ -85,7 +85,7 @@ begin
     end;
 end;
 
-procedure TRender.Render(mode: integer);
+procedure TRender.Render(mode: integer); //render scene
 var
   triangle: TRenderTri;
 begin
@@ -95,6 +95,10 @@ begin
 
   self.ExtractSceneAsTris;
   self.SceneSpaceToCameraSpace;
+
+  //should do bsp, but complicated and not enough time
+
+  //order for painters algorithm
   self.ZBuffer;
 
   for triangle in sceneTris do
@@ -114,7 +118,7 @@ begin
   self.scene := newScene;
 end;
 
-procedure TRender.ZBuffer;
+procedure TRender.ZBuffer; //order by z coordinate
 begin
   sceneTris.Sort(TComparer<TRenderTri>.Construct(function(const tri0, tri1: TRenderTri): integer
     var
@@ -134,7 +138,7 @@ end;
 
 { TRenderTri }
 
-procedure TRenderTri.ApplyCamera(camera: TCamera);
+procedure TRenderTri.ApplyCamera(camera: TCamera); //apply camera data to go from scene to cam space
 var
   i: integer;
 begin
@@ -161,7 +165,7 @@ begin
     Add(points);
   end;
 
-  for i := 0 to 2 do begin
+  for i := 0 to 2 do begin //apply scene object attributes
     self[i].Scale(parentObj.arrayScale);
     self[i].Rotate(parentObj.arrayRot);
     self[i].Transform(parentObj.arrayPos);
@@ -197,9 +201,8 @@ var
   screen_x, screen_y: integer;
 begin
   for i := 0 to 2 do begin
-    //self[i].ShowPointsAsMessage;
 
-    if mode = 0 then begin //ortho
+    if mode = 0 then begin //ortho projection
       x := self[i][0] * 20;
       y := self[i][1] * 20;
 
@@ -209,8 +212,6 @@ begin
 
       x := RadToDeg(x) / 45;
       y := RadToDeg(y) / 45;
-
-      //ShowMessage('SCREEN X: ' + IntToStr(Trunc(x * 100)) + '% Y: ' + IntToStr(Trunc(y * 100)) + '%');
 
       x := x * canvas.Width * 0.5;
       y := y * canvas.Height * 0.5;
@@ -226,18 +227,16 @@ begin
     screen_x := Trunc(x);
     screen_y := Trunc(y);
 
-    if (mode = 0) or (mode = 2) then
+    if (mode = 0) or (mode = 2) then //map coordinates from centre outwards to top left down
        self.MapCoords(screen_x, screen_y, canvas);
 
-    //ShowMessage('X: ' + IntToStr(screen_x) + ' Y: ' + IntToStr(screen_y));
-
-    arrayPoints[i] := Point(screen_x, screen_y);
+    arrayPoints[i] := Point(screen_x, screen_y); //add to polygon
   end;
 
-  canvas.Canvas.Pen.Color := StringToColor('$00' + colour);
+  canvas.Canvas.Pen.Color := StringToColor('$00' + colour); //set shading
   canvas.Canvas.Brush.Color := canvas.Canvas.Pen.Color;
 
-  canvas.Canvas.Polygon(arrayPoints)
+  canvas.Canvas.Polygon(arrayPoints); //draw
 end;
 
 end.
