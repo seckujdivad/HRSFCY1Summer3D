@@ -1,7 +1,7 @@
 object RenderForm: TRenderForm
   Left = 0
   Top = 0
-  Caption = 'RenderForm'
+  Caption = 'Renderer'
   ClientHeight = 561
   ClientWidth = 800
   Color = clBtnFace
