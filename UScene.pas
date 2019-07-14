@@ -37,6 +37,7 @@ type
     private
       o_pos, o_rot, o_scale: TPoint;
       o_uid: integer;
+      o_name: string;
 
       procedure SetPos(index: integer; value: real);
       procedure SetRot(index: integer; value: real);
@@ -50,6 +51,7 @@ type
       property rot[index: integer]: real read GetRot write SetRot;
       property scale[index: integer]: real read GetScale write SetScale;
       property uid: integer read o_uid;
+      property name: string read o_name write o_name;
 
       property arrayPos: TPoint read o_pos write o_pos;
       property arrayRot: TPoint read o_rot write o_rot;
@@ -224,6 +226,17 @@ begin
           tri.mat_col := dbQuery.FieldByName('colour').AsString;
           tri.mat_name := dbQuery.FieldByName('name').AsString;
         end;
+    dbQuery.Next;
+  end;
+
+  self.ReleaseDB;
+
+  self.QueryDB('SELECT * FROM models', True);
+
+  while not dbQuery.Eof do begin
+    for sceneObj in self do
+      if sceneObj.uid = dbQuery.FieldByName('modelID').asInteger then
+        sceneObj.name := dbQuery.FieldByName('name').AsString;
     dbQuery.Next;
   end;
 

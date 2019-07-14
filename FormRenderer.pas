@@ -21,6 +21,7 @@ type
     Label1: TLabel;
     LblY: TLabel;
     Label3: TLabel;
+    LbSceneItems: TListBox;
     procedure FormCreate(Sender: TObject);
     procedure BtnRenderClick(Sender: TObject);
     procedure TrkXChange(Sender: TObject);
@@ -67,29 +68,40 @@ begin
 end;
 
 procedure TRenderForm.SetScene(path: string);
+var
+  sceneObj: TSceneObj;
 begin
   self.scene := TScene.Create(path, SQLConnScene, SQLQueryScene);
   self.renderer.SetScene(self.scene);
+
+  for sceneObj in self.scene do
+    LbSceneItems.Items.Add(sceneObj.name);
 
   self.RenderScene;
 end;
 
 procedure TRenderForm.TrkXChange(Sender: TObject);
 begin
-  self.scene[0].rot[0] := TrkX.Position;
-  self.RenderScene;
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].rot[0] := TrkX.Position;
+    self.RenderScene;
+  end;
 end;
 
 procedure TRenderForm.TrkYChange(Sender: TObject);
 begin
-  self.scene[0].rot[1] := TrkY.Position;
-  self.RenderScene;
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].rot[1] := TrkY.Position;
+    self.RenderScene;
+  end;
 end;
 
 procedure TRenderForm.TrkZChange(Sender: TObject);
 begin
-  self.scene[0].rot[2] := TrkZ.Position;
-  self.RenderScene;
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].rot[2] := TrkZ.Position;
+    self.RenderScene;
+  end;
 end;
 
 end.

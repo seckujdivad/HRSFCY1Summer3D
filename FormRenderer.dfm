@@ -16,10 +16,10 @@ object RenderForm: TRenderForm
   PixelsPerInch = 96
   TextHeight = 13
   object RenderOutput: TPaintBox
-    Left = 0
-    Top = 71
-    Width = 801
-    Height = 490
+    Left = 280
+    Top = 80
+    Width = 450
+    Height = 400
     Cursor = crCross
   end
   object LblStatus: TLabel
@@ -30,24 +30,27 @@ object RenderForm: TRenderForm
     Caption = 'Status'
   end
   object Label1: TLabel
-    Left = 336
+    Left = 280
     Top = 8
-    Width = 47
+    Width = 150
     Height = 13
+    Alignment = taCenter
     Caption = 'X rotation'
   end
   object LblY: TLabel
-    Left = 488
+    Left = 436
     Top = 8
-    Width = 47
+    Width = 134
     Height = 13
+    Alignment = taCenter
     Caption = 'Y rotation'
   end
   object Label3: TLabel
-    Left = 664
+    Left = 576
     Top = 8
-    Width = 47
+    Width = 150
     Height = 13
+    Alignment = taCenter
     Caption = 'Z rotation'
   end
   object BtnRender: TButton
@@ -81,7 +84,7 @@ object RenderForm: TRenderForm
     OnChange = TrkXChange
   end
   object TrkY: TTrackBar
-    Left = 436
+    Left = 428
     Top = 20
     Width = 150
     Height = 45
@@ -90,13 +93,21 @@ object RenderForm: TRenderForm
     OnChange = TrkYChange
   end
   object TrkZ: TTrackBar
-    Left = 608
+    Left = 576
     Top = 20
     Width = 150
     Height = 45
     Max = 360
     TabOrder = 4
     OnChange = TrkZChange
+  end
+  object LbSceneItems: TListBox
+    Left = 24
+    Top = 80
+    Width = 177
+    Height = 289
+    ItemHeight = 13
+    TabOrder = 5
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'
@@ -110,14 +121,14 @@ object RenderForm: TRenderForm
         'Driver260.bpl'
       'FailIfMissing=True'
       'Database=')
-    Left = 112
-    Top = 120
+    Left = 672
+    Top = 512
   end
   object SQLQueryScene: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = SQLConnScene
-    Left = 184
-    Top = 120
+    Left = 576
+    Top = 512
   end
 end
