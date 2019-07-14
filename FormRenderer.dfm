@@ -29,7 +29,7 @@ object RenderForm: TRenderForm
     Height = 13
     Caption = 'Status'
   end
-  object Label1: TLabel
+  object LblX: TLabel
     Left = 280
     Top = 8
     Width = 150
@@ -45,7 +45,7 @@ object RenderForm: TRenderForm
     Alignment = taCenter
     Caption = 'Y rotation'
   end
-  object Label3: TLabel
+  object LblZ: TLabel
     Left = 576
     Top = 8
     Width = 150

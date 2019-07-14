@@ -18,9 +18,9 @@ type
     TrkX: TTrackBar;
     TrkY: TTrackBar;
     TrkZ: TTrackBar;
-    Label1: TLabel;
+    LblX: TLabel;
     LblY: TLabel;
-    Label3: TLabel;
+    LblZ: TLabel;
     LbSceneItems: TListBox;
     procedure FormCreate(Sender: TObject);
     procedure BtnRenderClick(Sender: TObject);
