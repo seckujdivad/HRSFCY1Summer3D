@@ -29,6 +29,27 @@ object RenderForm: TRenderForm
     Height = 13
     Caption = 'Status'
   end
+  object Label1: TLabel
+    Left = 336
+    Top = 8
+    Width = 47
+    Height = 13
+    Caption = 'X rotation'
+  end
+  object LblY: TLabel
+    Left = 488
+    Top = 8
+    Width = 47
+    Height = 13
+    Caption = 'Y rotation'
+  end
+  object Label3: TLabel
+    Left = 664
+    Top = 8
+    Width = 47
+    Height = 13
+    Caption = 'Z rotation'
+  end
   object BtnRender: TButton
     Left = 8
     Top = 8
@@ -41,7 +62,7 @@ object RenderForm: TRenderForm
   object RdoMethod: TRadioGroup
     Left = 126
     Top = 8
-    Width = 305
+    Width = 107
     Height = 57
     Caption = 'Render type'
     ItemIndex = 1
@@ -49,6 +70,33 @@ object RenderForm: TRenderForm
       'Orthographic'
       'Perspective')
     TabOrder = 1
+  end
+  object TrkX: TTrackBar
+    Left = 280
+    Top = 20
+    Width = 150
+    Height = 45
+    Max = 360
+    TabOrder = 2
+    OnChange = TrkXChange
+  end
+  object TrkY: TTrackBar
+    Left = 436
+    Top = 20
+    Width = 150
+    Height = 45
+    Max = 360
+    TabOrder = 3
+    OnChange = TrkYChange
+  end
+  object TrkZ: TTrackBar
+    Left = 608
+    Top = 20
+    Width = 150
+    Height = 45
+    Max = 360
+    TabOrder = 4
+    OnChange = TrkZChange
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'
@@ -62,14 +110,14 @@ object RenderForm: TRenderForm
         'Driver260.bpl'
       'FailIfMissing=True'
       'Database=')
-    Left = 504
-    Top = 8
+    Left = 112
+    Top = 120
   end
   object SQLQueryScene: TSQLQuery
     MaxBlobSize = -1
     Params = <>
     SQLConnection = SQLConnScene
-    Left = 568
-    Top = 8
+    Left = 184
+    Top = 120
   end
 end
