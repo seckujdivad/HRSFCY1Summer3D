@@ -92,6 +92,8 @@ begin
     LbSceneItems.Items.Add(sceneObj.name);
 
   self.RenderScene;
+
+  LblStatus.Caption := 'Scene loaded';
 end;
 
 procedure TRenderForm.TrkXChange(Sender: TObject);

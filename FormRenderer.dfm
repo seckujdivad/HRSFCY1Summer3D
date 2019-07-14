@@ -25,9 +25,9 @@ object RenderForm: TRenderForm
   object LblStatus: TLabel
     Left = 89
     Top = 8
-    Width = 31
+    Width = 65
     Height = 13
-    Caption = 'Status'
+    Caption = 'No file loaded'
   end
   object LblX: TLabel
     Left = 280
@@ -63,7 +63,7 @@ object RenderForm: TRenderForm
     OnClick = BtnRenderClick
   end
   object RdoMethod: TRadioGroup
-    Left = 126
+    Left = 160
     Top = 8
     Width = 107
     Height = 57
