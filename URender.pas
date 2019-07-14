@@ -3,7 +3,8 @@ unit URender;
 interface
 uses
   Vcl.Graphics, UScene, Generics.Collections, UPointUtils,
-  System.Generics.Defaults, Vcl.Dialogs, SysUtils;
+  System.Generics.Defaults, Vcl.Dialogs, SysUtils, System.Types, Vcl.ExtCtrls,
+  System.Math;
 
 type
   TRenderTri = class(TList<TPointList>)
@@ -11,6 +12,9 @@ type
       tri_col: string;
 
       function GetZ: real;
+
+      procedure MapCoords(var x, y: integer; canvas: TPaintBox);
+
     public
       property colour: string read tri_col write tri_col;
       property z: real read GetZ;
@@ -18,13 +22,14 @@ type
       constructor Create(triangle: TTriangle; parentObj: TSceneObj);
 
       procedure ApplyCamera(camera: TCamera);
+      procedure Project(canvas: TPaintBox; mode: integer);
   end;
 
   TSimpleScene = TList<TRenderTri>;
 
   TRender = class
     private
-      canvas: TCanvas;
+      canvas: TPaintBox;
       scene: TScene;
       sceneTris: TSimpleScene;
 
@@ -33,10 +38,10 @@ type
       procedure ZBuffer;
       function CompareTris(tri0, tri1: TRenderTri): integer;
     public
-      constructor Create(renderTo: TCanvas);
+      constructor Create(renderTo: TPaintBox);
 
       procedure SetScene(newScene: TScene);
-      procedure Render;
+      procedure Render(mode: integer);
   end;
 
 implementation
@@ -58,7 +63,7 @@ begin
     result := 0;
 end;
 
-constructor TRender.Create(renderTo: TCanvas);
+constructor TRender.Create(renderTo: TPaintBox);
 begin
   self.canvas := renderTo;
 
@@ -80,11 +85,16 @@ begin
     end;
 end;
 
-procedure TRender.Render;
+procedure TRender.Render(mode: integer);
+var
+  triangle: TRenderTri;
 begin
   self.ExtractSceneAsTris;
   self.SceneSpaceToCameraSpace;
   self.ZBuffer;
+
+  for triangle in sceneTris do
+    triangle.Project(self.canvas, mode);
 end;
 
 procedure TRender.SceneSpaceToCameraSpace;
@@ -125,8 +135,8 @@ var
   i: integer;
 begin
   for i := 0 to 2 do begin
-    self[i].Transform(camera.arrayPos);
-    self[i].Rotate(camera.arrayRot);
+    //self[i].Transform(self[i].Multiply(camera.arrayPos, -1));
+    self[i].Rotate(self[i].Multiply(camera.arrayRot, -1));
   end;
 end;
 
@@ -152,10 +162,9 @@ begin
     self[i].Rotate(parentObj.arrayRot);
     self[i].Transform(parentObj.arrayPos);
   end;
-
 end;
 
-function TRenderTri.GetZ: real;
+function TRenderTri.GetZ: real; //find the mean z coordinate (only relevant in cam space)
 var
  point: TList<real>;
 begin
@@ -165,6 +174,64 @@ begin
     result := result + point[2];
 
   result := result / Count;
+end;
+
+procedure TRenderTri.MapCoords(var x, y: integer; canvas: TPaintBox);
+begin
+  x := x + (canvas.Width DIV 2);
+  y := y + (canvas.Height DIV 2);
+end;
+
+procedure TRenderTri.Project(canvas: TPaintBox; mode: integer);
+var
+  arrayPoints: array[0..2] of TPoint;
+  i: integer;
+  pointList: TPointList;
+  x, y: real;
+  screen_x, screen_y: integer;
+begin
+  for i := 0 to 2 do begin
+    self[i].ShowPointsAsMessage;
+
+    if mode = 0 then begin //ortho
+      x := self[i][0] * 20;
+      y := self[i][1] * 20;
+
+    end else if mode = 1 then begin //proper perspective
+      x := Tan(self[i][0] / self[i][2]);
+      y := Tan(self[i][1] / self[i][2]);
+
+      x := RadToDeg(x) / 90;
+      y := RadToDeg(y) / 90;
+
+      ShowMessage('SCREEN X: ' + IntToStr(Trunc(x * 100)) + '% Y: ' + IntToStr(Trunc(y * 100)) + '%');
+
+      x := x * canvas.Width * 0.5;
+      y := y * canvas.Height * 0.5;
+
+      x := (canvas.Width / 2) + x;
+      y := (canvas.Height / 2) - y;
+
+    end else if mode = 2 then begin //weak perspective
+      x := self[i][0] * self[i][2];
+      y := self[i][1] * self[i][2];
+    end;
+
+    screen_x := Trunc(x);
+    screen_y := Trunc(y);
+
+    if (mode = 0) or (mode = 2) then
+       self.MapCoords(screen_x, screen_y, canvas);
+
+    //ShowMessage('X: ' + IntToStr(screen_x) + ' Y: ' + IntToStr(screen_y));
+
+    arrayPoints[i] := Point(screen_x, screen_y);
+  end;
+
+  canvas.Canvas.Pen.Color := StringToColor('$FF' + colour);
+  canvas.Canvas.Brush.Color := canvas.Canvas.Pen.Color;
+
+  canvas.Canvas.Polygon(arrayPoints)
 end;
 
 end.

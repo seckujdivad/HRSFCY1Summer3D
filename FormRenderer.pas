@@ -14,6 +14,7 @@ type
     LblStatus: TLabel;
     SQLConnScene: TSQLConnection;
     SQLQueryScene: TSQLQuery;
+    RdoMethod: TRadioGroup;
     procedure FormCreate(Sender: TObject);
     procedure BtnRenderClick(Sender: TObject);
   private
@@ -32,12 +33,12 @@ implementation
 
 procedure TRenderForm.BtnRenderClick(Sender: TObject);
 begin
-  self.renderer.Render;
+  self.renderer.Render(RdoMethod.ItemIndex);
 end;
 
 procedure TRenderForm.FormCreate(Sender: TObject);
 begin
-  self.renderer := TRender.Create(RenderOutput.Canvas);
+  self.renderer := TRender.Create(RenderOutput);
 end;
 
 procedure TRenderForm.SetScene(path: string);

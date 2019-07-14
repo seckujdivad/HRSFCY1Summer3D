@@ -19,6 +19,11 @@ type
       procedure Rotate(rotate: TList<real>); overload;
       procedure Scale(scale: TPoint); overload;
       procedure Scale(scale: TList<real>); overload;
+
+      function Multiply(point: TList<real>; factor: real): TList<real>; overload;
+      function Multiply(point: TPoint; factor: real): TPoint; overload;
+
+      procedure ShowPointsAsMessage;
   end;
 
 implementation
@@ -48,6 +53,21 @@ end;
 constructor TPointList.Create;
 begin
   inherited Create;
+end;
+
+function TPointList.Multiply(point: TPoint; factor: real): TPoint;
+begin
+  result := ListToArr(self.Multiply(ArrToList(point), factor));
+end;
+
+function TPointList.Multiply(point: TList<real>; factor: real): TList<real>;
+var
+  value: real;
+begin
+  result := TList<real>.Create;
+
+  for value in list do
+    result.Add(value * factor);
 end;
 
 procedure TPointList.Rotate(rotate: TList<real>);
@@ -117,6 +137,11 @@ begin
 
   for i := 0 to 2 do
     self[i] := result[i];
+end;
+
+procedure TPointList.ShowPointsAsMessage;
+begin
+  ShowMessage('X: ' + FloatToStrF(self[0], ffNumber, 4, 2) + 'Y: ' + FloatToStrF(self[1], ffNumber, 4, 2) + ' Z: ' + FloatToStrF(self[0], ffNumber, 4, 2));
 end;
 
 procedure TPointList.Transform(point: TList<real>);

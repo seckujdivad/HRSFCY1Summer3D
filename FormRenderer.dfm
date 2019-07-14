@@ -16,9 +16,9 @@ object RenderForm: TRenderForm
   TextHeight = 13
   object RenderOutput: TPaintBox
     Left = 0
-    Top = 48
-    Width = 800
-    Height = 513
+    Top = 71
+    Width = 801
+    Height = 490
     Cursor = crCross
   end
   object LblStatus: TLabel
@@ -36,6 +36,18 @@ object RenderForm: TRenderForm
     Caption = 'Render'
     TabOrder = 0
     OnClick = BtnRenderClick
+  end
+  object RdoMethod: TRadioGroup
+    Left = 126
+    Top = 8
+    Width = 305
+    Height = 57
+    Caption = 'Render type'
+    ItemIndex = 1
+    Items.Strings = (
+      'Orthographic'
+      'Perspective')
+    TabOrder = 1
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'
