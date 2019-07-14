@@ -214,7 +214,7 @@ begin
       y := RadToDeg(y) / 45;
 
       x := x * canvas.Width * 0.5;
-      y := y * canvas.Height * 0.5;
+      y := y * canvas.Width * 0.5;
 
       x := (canvas.Width / 2) - x;
       y := (canvas.Height / 2) - y;
