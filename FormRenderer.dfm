@@ -108,6 +108,7 @@ object RenderForm: TRenderForm
     Height = 289
     ItemHeight = 13
     TabOrder = 5
+    OnClick = LbSceneItemsClick
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'

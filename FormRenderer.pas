@@ -27,6 +27,7 @@ type
     procedure TrkXChange(Sender: TObject);
     procedure TrkYChange(Sender: TObject);
     procedure TrkZChange(Sender: TObject);
+    procedure LbSceneItemsClick(Sender: TObject);
   private
     renderer: TRender;
     scene: TScene;
@@ -59,6 +60,19 @@ end;
 procedure TRenderForm.FormCreate(Sender: TObject);
 begin
   self.renderer := TRender.Create(RenderOutput);
+end;
+
+procedure TRenderForm.LbSceneItemsClick(Sender: TObject);
+begin
+  if LbSceneItems.ItemIndex = -1 then begin
+    TrkX.Position := 0;
+    TrkY.Position := 0;
+    TrkZ.Position := 0;
+  end else begin
+    TrkX.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[0]);
+    TrkY.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[1]);
+    TrkZ.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[2]);
+  end;
 end;
 
 procedure TRenderForm.RenderScene;
