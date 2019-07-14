@@ -66,7 +66,7 @@ var
 begin
   result := TList<real>.Create;
 
-  for value in list do
+  for value in point do
     result.Add(value * factor);
 end;
 

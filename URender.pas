@@ -89,6 +89,10 @@ procedure TRender.Render(mode: integer);
 var
   triangle: TRenderTri;
 begin
+  for triangle in sceneTris do
+    triangle.Free;
+  sceneTris.Clear;
+
   self.ExtractSceneAsTris;
   self.SceneSpaceToCameraSpace;
   self.ZBuffer;
@@ -135,7 +139,7 @@ var
   i: integer;
 begin
   for i := 0 to 2 do begin
-    //self[i].Transform(self[i].Multiply(camera.arrayPos, -1));
+    self[i].Transform(self[i].Multiply(camera.arrayPos, -1));
     self[i].Rotate(self[i].Multiply(camera.arrayRot, -1));
   end;
 end;
@@ -162,6 +166,8 @@ begin
     self[i].Rotate(parentObj.arrayRot);
     self[i].Transform(parentObj.arrayPos);
   end;
+
+  colour := triangle.mat_col;
 end;
 
 function TRenderTri.GetZ: real; //find the mean z coordinate (only relevant in cam space)
@@ -191,7 +197,7 @@ var
   screen_x, screen_y: integer;
 begin
   for i := 0 to 2 do begin
-    self[i].ShowPointsAsMessage;
+    //self[i].ShowPointsAsMessage;
 
     if mode = 0 then begin //ortho
       x := self[i][0] * 20;
@@ -204,7 +210,7 @@ begin
       x := RadToDeg(x) / 90;
       y := RadToDeg(y) / 90;
 
-      ShowMessage('SCREEN X: ' + IntToStr(Trunc(x * 100)) + '% Y: ' + IntToStr(Trunc(y * 100)) + '%');
+      //ShowMessage('SCREEN X: ' + IntToStr(Trunc(x * 100)) + '% Y: ' + IntToStr(Trunc(y * 100)) + '%');
 
       x := x * canvas.Width * 0.5;
       y := y * canvas.Height * 0.5;
@@ -228,7 +234,7 @@ begin
     arrayPoints[i] := Point(screen_x, screen_y);
   end;
 
-  canvas.Canvas.Pen.Color := StringToColor('$FF' + colour);
+  canvas.Canvas.Pen.Color := StringToColor('$00' + colour);
   canvas.Canvas.Brush.Color := canvas.Canvas.Pen.Color;
 
   canvas.Canvas.Polygon(arrayPoints)

@@ -20,6 +20,8 @@ type
   private
     renderer: TRender;
     scene: TScene;
+
+    procedure ClearCanvas;
   public
     procedure SetScene(path: string);
   end;
@@ -33,7 +35,17 @@ implementation
 
 procedure TRenderForm.BtnRenderClick(Sender: TObject);
 begin
+  ClearCanvas;
   self.renderer.Render(RdoMethod.ItemIndex);
+  self.scene.camera.rot[0] := self.scene.camera.rot[0] + 1;
+  //ShowMessage(IntToStr(Trunc(self.scene.camera.rot[0])));
+end;
+
+procedure TRenderForm.ClearCanvas;
+begin
+  RenderOutput.Canvas.Brush.Color := clWhite;
+  RenderOutput.Canvas.Pen.Color := clWhite;
+  RenderOutput.Canvas.Rectangle(0, 0, RenderOutput.Width - 1, RenderOutput.Height - 1);
 end;
 
 procedure TRenderForm.FormCreate(Sender: TObject);
