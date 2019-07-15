@@ -65,7 +65,7 @@ end;
 
 procedure TRenderForm.LbSceneItemsClick(Sender: TObject);
 begin
-  if LbSceneItems.ItemIndex = -1 then begin
+  if LbSceneItems.ItemIndex = -1 then begin //no selection, reset
     TrkX.Position := 0;
     TrkY.Position := 0;
     TrkZ.Position := 0;
@@ -78,7 +78,7 @@ end;
 
 procedure TRenderForm.RdoMethodClick(Sender: TObject);
 begin
-  RenderScene;
+  RenderScene; //render mode changed means rerender required
 end;
 
 procedure TRenderForm.RenderScene;

@@ -20,12 +20,11 @@ object MainForm: TMainForm
   TextHeight = 13
   object PnlParent: TPanel
     AlignWithMargins = True
-    Left = 98
+    Left = 96
     Top = 28
-    Width = 800
+    Width = 802
     Height = 649
     Align = alRight
-    AutoSize = True
     ShowCaption = False
     TabOrder = 0
   end
@@ -53,7 +52,7 @@ object MainForm: TMainForm
     AlignWithMargins = True
     Left = 0
     Top = 31
-    Width = 92
+    Width = 97
     Height = 322
     Anchors = [akLeft, akTop, akRight]
     ButtonWidth = 90

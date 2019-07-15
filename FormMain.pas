@@ -39,14 +39,16 @@ implementation
 
 procedure TMainForm.ButtonGroup1Items0Click(Sender: TObject);
 begin
-  MakeToolWindow('render');
+  MakeToolWindow('render'); //create a render window
+  if not (FileOpen1.Dialog.FileName = '') then //give the scene name if it has been set
+    renderForms.Last.SetScene(FileOpen1.Dialog.FileName);
 end;
 
 procedure TMainForm.FileOpen1Accept(Sender: TObject);
 var
   renderForm: TRenderForm;
 begin
-  for renderForm in renderForms do begin
+  for renderForm in renderForms do begin //send new file name to all open render forms
     renderForm.SetScene(FileOpen1.Dialog.FileName);
   end;
 end;
@@ -69,14 +71,14 @@ begin
   if ftype = 'render' then begin
     renderForms.Add(TRenderForm.Create(self));
 
-    renderForms.Last.Parent := PnlParent;
+    renderForms.Last.Parent := PnlParent; //dipslay inside the frame
     renderForms.Last.Show;
   end;
 end;
 
 procedure TMainForm.RemoveApp(index: integer; ftype: string);
 begin
-  if ftype = 'render' then begin
+  if ftype = 'render' then begin //hide and free
     renderForms[index].Hide;
     renderForms[index].Free;
   end;
