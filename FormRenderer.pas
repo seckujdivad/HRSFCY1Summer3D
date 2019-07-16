@@ -36,6 +36,9 @@ type
     procedure TrkZChange(Sender: TObject);
     procedure LbSceneItemsClick(Sender: TObject);
     procedure RdoMethodClick(Sender: TObject);
+    procedure SpEdXPosChange(Sender: TObject);
+    procedure SpEdYPosChange(Sender: TObject);
+    procedure SpEdZPosChange(Sender: TObject);
   private
     renderer: TRender;
     scene: TScene;
@@ -107,6 +110,30 @@ begin
   self.RenderScene;
 
   LblStatus.Caption := 'Scene loaded';
+end;
+
+procedure TRenderForm.SpEdXPosChange(Sender: TObject);
+begin
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].pos[0] := SpEdXPos.Value;
+    self.RenderScene;
+  end;
+end;
+
+procedure TRenderForm.SpEdYPosChange(Sender: TObject);
+begin
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].pos[1] := SpEdYPos.Value;
+    self.RenderScene;
+  end;
+end;
+
+procedure TRenderForm.SpEdZPosChange(Sender: TObject);
+begin
+  if not (LbSceneItems.ItemIndex = -1) then begin
+    self.scene[LbSceneItems.ItemIndex].pos[2] := SpEdZPos.Value;
+    self.RenderScene;
+  end;
 end;
 
 procedure TRenderForm.TrkXChange(Sender: TObject);

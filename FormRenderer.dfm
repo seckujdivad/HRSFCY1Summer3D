@@ -144,6 +144,7 @@ object RenderForm: TRenderForm
     MinValue = 0
     TabOrder = 6
     Value = 0
+    OnChange = SpEdXPosChange
   end
   object SpEdYPos: TSpinEdit
     Left = 428
@@ -154,6 +155,7 @@ object RenderForm: TRenderForm
     MinValue = 0
     TabOrder = 7
     Value = 0
+    OnChange = SpEdYPosChange
   end
   object SpEdZPos: TSpinEdit
     Left = 576
@@ -164,6 +166,7 @@ object RenderForm: TRenderForm
     MinValue = 0
     TabOrder = 8
     Value = 0
+    OnChange = SpEdZPosChange
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'
