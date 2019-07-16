@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, URender, Vcl.StdCtrls,
-  UScene, Data.FMTBcd, Data.DB, Data.SqlExpr, Data.DbxSqlite, Vcl.ComCtrls;
+  UScene, Data.FMTBcd, Data.DB, Data.SqlExpr, Data.DbxSqlite, Vcl.ComCtrls,
+  Vcl.Samples.Spin;
 
 type
   TRenderForm = class(TForm)
@@ -22,6 +23,12 @@ type
     LblY: TLabel;
     LblZ: TLabel;
     LbSceneItems: TListBox;
+    SpEdXPos: TSpinEdit;
+    SpEdYPos: TSpinEdit;
+    SpEdZPos: TSpinEdit;
+    LblXPos: TLabel;
+    LblYPos: TLabel;
+    LblZPos: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure BtnRenderClick(Sender: TObject);
     procedure TrkXChange(Sender: TObject);

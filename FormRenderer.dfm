@@ -53,6 +53,30 @@ object RenderForm: TRenderForm
     Alignment = taCenter
     Caption = 'Z rotation'
   end
+  object LblXPos: TLabel
+    Left = 280
+    Top = 39
+    Width = 150
+    Height = 13
+    Alignment = taCenter
+    Caption = 'X position'
+  end
+  object LblYPos: TLabel
+    Left = 436
+    Top = 39
+    Width = 142
+    Height = 13
+    Alignment = taCenter
+    Caption = 'Y position'
+  end
+  object LblZPos: TLabel
+    Left = 584
+    Top = 39
+    Width = 142
+    Height = 13
+    Alignment = taCenter
+    Caption = 'Z position'
+  end
   object BtnRender: TButton
     Left = 8
     Top = 8
@@ -110,6 +134,36 @@ object RenderForm: TRenderForm
     ItemHeight = 13
     TabOrder = 5
     OnClick = LbSceneItemsClick
+  end
+  object SpEdXPos: TSpinEdit
+    Left = 280
+    Top = 52
+    Width = 150
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 6
+    Value = 0
+  end
+  object SpEdYPos: TSpinEdit
+    Left = 428
+    Top = 52
+    Width = 150
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 7
+    Value = 0
+  end
+  object SpEdZPos: TSpinEdit
+    Left = 576
+    Top = 52
+    Width = 150
+    Height = 22
+    MaxValue = 0
+    MinValue = 0
+    TabOrder = 8
+    Value = 0
   end
   object SQLConnScene: TSQLConnection
     DriverName = 'Sqlite'
