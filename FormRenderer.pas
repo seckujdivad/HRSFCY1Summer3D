@@ -79,10 +79,18 @@ begin
     TrkX.Position := 0;
     TrkY.Position := 0;
     TrkZ.Position := 0;
+
+    SpEdXPos.Value := 0;
+    SpEdYPos.Value := 0;
+    SpEdZPos.Value := 0;
   end else begin
     TrkX.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[0]);
     TrkY.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[1]);
     TrkZ.Position := Trunc(self.scene[LbSceneItems.ItemIndex].rot[2]);
+
+    SpEdXPos.Value := Trunc(self.scene[LbSceneItems.ItemIndex].pos[0]);
+    SpEdYPos.Value := Trunc(self.scene[LbSceneItems.ItemIndex].pos[1]);
+    SpEdZPos.Value := Trunc(self.scene[LbSceneItems.ItemIndex].pos[2]);
   end;
 end;
 
