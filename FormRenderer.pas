@@ -65,7 +65,7 @@ procedure TRenderForm.ClearCanvas;
 begin
   RenderOutput.Canvas.Brush.Color := clWhite;
   RenderOutput.Canvas.Pen.Color := clWhite;
-  RenderOutput.Canvas.Rectangle(0, 0, RenderOutput.Width - 1, RenderOutput.Height - 1);
+  RenderOutput.Canvas.Rectangle(0, 0, RenderOutput.Width, RenderOutput.Height);
 end;
 
 procedure TRenderForm.FormCreate(Sender: TObject);

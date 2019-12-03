@@ -32,7 +32,7 @@ object RenderForm: TRenderForm
   object LblX: TLabel
     Left = 280
     Top = 8
-    Width = 150
+    Width = 47
     Height = 13
     Alignment = taCenter
     Caption = 'X rotation'
@@ -40,7 +40,7 @@ object RenderForm: TRenderForm
   object LblY: TLabel
     Left = 436
     Top = 8
-    Width = 142
+    Width = 47
     Height = 13
     Alignment = taCenter
     Caption = 'Y rotation'
@@ -48,7 +48,7 @@ object RenderForm: TRenderForm
   object LblZ: TLabel
     Left = 576
     Top = 8
-    Width = 150
+    Width = 47
     Height = 13
     Alignment = taCenter
     Caption = 'Z rotation'
@@ -56,7 +56,7 @@ object RenderForm: TRenderForm
   object LblXPos: TLabel
     Left = 280
     Top = 39
-    Width = 150
+    Width = 46
     Height = 13
     Alignment = taCenter
     Caption = 'X position'
@@ -64,7 +64,7 @@ object RenderForm: TRenderForm
   object LblYPos: TLabel
     Left = 436
     Top = 39
-    Width = 142
+    Width = 46
     Height = 13
     Alignment = taCenter
     Caption = 'Y position'
@@ -72,7 +72,7 @@ object RenderForm: TRenderForm
   object LblZPos: TLabel
     Left = 584
     Top = 39
-    Width = 142
+    Width = 46
     Height = 13
     Alignment = taCenter
     Caption = 'Z position'
