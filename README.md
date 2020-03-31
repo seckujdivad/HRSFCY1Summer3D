@@ -18,5 +18,5 @@ Once the objects have been loaded into memory, they are broken down into triangl
 
 ## Known issues
 * The canvas will completely or partially clear when the subwindow is resized or partially moved offscreen. This is an issue caused by VCL and the specific canvas widget. It could possibly be fixed by finding the events that are triggered by this and using them to call the render method.
-* The borders of the screen are not overwritten. There is no way to clear the specific VCl paintbox widget. Therefore, a white rectangle is drawn over the whole screen. However, it is not perfectly sized.
+* The borders of the screen are not overwritten. There is no way to clear the specific VCL paintbox widget. Therefore, a white rectangle is drawn over the whole screen. However, it is not perfectly sized.
 * Triangles can pop into and out of visibility when they shouldn't. This is a limitation of both the painter's algorithm and the sorting method used. In an ideal scenario, a Z buffer would have been used. However, there was no way to set individual pixels easily, and creating rectangles one pixel wide had large performance penalties.
