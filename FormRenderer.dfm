@@ -21,6 +21,7 @@ object RenderForm: TRenderForm
     Width = 450
     Height = 400
     Cursor = crCross
+    OnPaint = RenderOutputPaint
   end
   object LblStatus: TLabel
     Left = 89

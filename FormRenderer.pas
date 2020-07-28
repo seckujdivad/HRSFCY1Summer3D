@@ -39,12 +39,15 @@ type
     procedure SpEdXPosChange(Sender: TObject);
     procedure SpEdYPosChange(Sender: TObject);
     procedure SpEdZPosChange(Sender: TObject);
+    procedure RenderOutputPaint(Sender: TObject);
+
   private
     renderer: TRender;
     scene: TScene;
 
     procedure ClearCanvas;
     procedure RenderScene;
+
   public
     procedure SetScene(path: string);
   end;
@@ -96,7 +99,12 @@ end;
 
 procedure TRenderForm.RdoMethodClick(Sender: TObject);
 begin
-  RenderScene; //render mode changed means rerender required
+  self.RenderScene(); //render mode changed means rerender required
+end;
+
+procedure TRenderForm.RenderOutputPaint(Sender: TObject);
+begin
+  self.RenderScene();
 end;
 
 procedure TRenderForm.RenderScene;
