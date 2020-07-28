@@ -108,9 +108,18 @@ begin
 end;
 
 procedure TRenderForm.RenderScene;
+var
+  mode: TProjectionMode;
 begin
-  ClearCanvas;
-  self.renderer.Render(RdoMethod.ItemIndex);
+  self.ClearCanvas;
+
+  mode := projStrongPersp;
+  case RdoMethod.ItemIndex of
+    0: mode := projOrtho;
+    1: mode := projStrongPersp;
+  end;
+
+  self.renderer.Render(mode);
 end;
 
 procedure TRenderForm.SetScene(path: string);

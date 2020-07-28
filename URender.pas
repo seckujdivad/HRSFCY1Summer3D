@@ -4,9 +4,11 @@ interface
 uses
   Vcl.Graphics, UScene, Generics.Collections, UPointUtils,
   System.Generics.Defaults, Vcl.Dialogs, SysUtils, System.Types, Vcl.ExtCtrls,
-  System.Math;
+  System.Math, System.UITypes;
 
 type
+  TProjectionMode = (projOrtho, projStrongPersp, projWeakPersp);
+
   TRenderTri = class(TList<TPointList>)
     private
       tri_col: string;
@@ -22,7 +24,7 @@ type
       constructor Create(triangle: TTriangle; parentObj: TSceneObj);
 
       procedure ApplyCamera(camera: TCamera);
-      procedure Project(canvas: TPaintBox; mode: integer);
+      procedure Project(canvas: TPaintBox; mode: TProjectionMode);
   end;
 
   TSimpleScene = TList<TRenderTri>;
@@ -36,32 +38,16 @@ type
       procedure ExtractSceneAsTris;
       procedure SceneSpaceToCameraSpace;
       procedure ZBuffer;
-      function CompareTris(tri0, tri1: TRenderTri): integer;
     public
       constructor Create(renderTo: TPaintBox);
 
       procedure SetScene(newScene: TScene);
-      procedure Render(mode: integer);
+      procedure Render(mode: TProjectionMode);
   end;
 
 implementation
 
 { TRender }
-
-function TRender.CompareTris(tri0, tri1: TRenderTri): integer; //compare function for zbuffer sorting
-var
-  z0, z1: real;
-begin
-  z0 := tri0.z;
-  z1 := tri1.z;
-
-  if z0 < z1 then
-    result := 1
-  else if z0 > z1 then
-    result := -1
-  else
-    result := 0;
-end;
 
 constructor TRender.Create(renderTo: TPaintBox);
 begin
@@ -85,24 +71,26 @@ begin
     end;
 end;
 
-procedure TRender.Render(mode: integer); //render scene
+procedure TRender.Render(mode: TProjectionMode); //render scene
 var
   triangle: TRenderTri;
 begin
-  for triangle in sceneTris do
-    triangle.Free;
-  sceneTris.Clear;
+  if self.scene <> nil then begin
+    for triangle in self.sceneTris do
+      triangle.Free;
+    self.sceneTris.Clear;
 
-  self.ExtractSceneAsTris;
-  self.SceneSpaceToCameraSpace;
+    self.ExtractSceneAsTris;
+    self.SceneSpaceToCameraSpace;
 
-  //should do bsp, but complicated and not enough time
+    //should do bsp, but complicated and not enough time
 
-  //order for painters algorithm
-  self.ZBuffer;
+    //order for painters algorithm
+    self.ZBuffer;
 
-  for triangle in sceneTris do
-    triangle.Project(self.canvas, mode);
+    for triangle in self.sceneTris do
+      triangle.Project(self.canvas, mode);
+  end;
 end;
 
 procedure TRender.SceneSpaceToCameraSpace;
@@ -192,21 +180,22 @@ begin
   y := y + (canvas.Height DIV 2);
 end;
 
-procedure TRenderTri.Project(canvas: TPaintBox; mode: integer);
+procedure TRenderTri.Project(canvas: TPaintBox; mode: TProjectionMode);
 var
   arrayPoints: array[0..2] of TPoint;
   i: integer;
-  pointList: TPointList;
   x, y: real;
   screen_x, screen_y: integer;
 begin
   for i := 0 to 2 do begin
+    x := 0;
+    y := 0;
 
-    if mode = 0 then begin //ortho projection
+    if mode = projOrtho then begin //ortho projection
       x := self[i][0] * 20;
       y := self[i][1] * 20;
 
-    end else if mode = 1 then begin //proper perspective
+    end else if mode = projStrongPersp then begin //proper perspective
       x := Tan(self[i][0] / self[i][2]);
       y := Tan(self[i][1] / self[i][2]);
 
@@ -219,7 +208,7 @@ begin
       x := (canvas.Width / 2) - x;
       y := (canvas.Height / 2) - y;
 
-    end else if mode = 2 then begin //weak perspective
+    end else if mode = projWeakPersp then begin //weak perspective
       x := self[i][0] * self[i][2];
       y := self[i][1] * self[i][2];
     end;
@@ -227,7 +216,7 @@ begin
     screen_x := Trunc(x);
     screen_y := Trunc(y);
 
-    if (mode = 0) or (mode = 2) then //map coordinates from centre outwards to top left down
+    if (mode = projOrtho) or (mode = projWeakPersp) then //map coordinates from centre outwards to top left down
        self.MapCoords(screen_x, screen_y, canvas);
 
     arrayPoints[i] := Point(screen_x, screen_y); //add to polygon

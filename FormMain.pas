@@ -27,7 +27,6 @@ type
     function GetToolWindow(index: integer; ftype: string): TForm;
     function MakeToolWindow(ftype: string): integer;
     procedure RemoveApp(index: integer; ftype: string);
-
   end;
 
 var
@@ -62,8 +61,11 @@ end;
 
 function TMainForm.GetToolWindow(index: integer; ftype: string): TForm;
 begin
-  if ftype = 'render' then
+  if ftype = 'render' then begin
     result := renderForms[index];
+  end else begin
+    result := nil;
+  end;
 end;
 
 function TMainForm.MakeToolWindow(ftype: string): integer;
@@ -73,6 +75,10 @@ begin
 
     renderForms.Last.Parent := PnlParent; //dipslay inside the frame
     renderForms.Last.Show;
+
+    result := renderForms.Count;
+  end else begin
+    result := -1;
   end;
 end;
 
